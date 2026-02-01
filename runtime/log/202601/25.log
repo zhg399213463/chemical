@@ -1,0 +1,80 @@
+---------------------------------------------------------------
+
+[2026-01-25T13:21:44+08:00] 172.19.0.1 POST chemical.com/admin.php/system/material/edit.html
+[运行时间：0.631960s] [吞吐率：1.58req/s] [内存消耗：645.26kb] [文件加载：118]
+[ error ] [8]未定义数组索引: uid[/www/chemical/application/system/admin/Material.php:235]
+---------------------------------------------------------------
+
+[2026-01-25T14:19:54+08:00] 172.19.0.1 POST chemical.com/admin.php/system/material/edit.html
+[运行时间：0.642753s] [吞吐率：1.56req/s] [内存消耗：640.18kb] [文件加载：118]
+[ error ] [8]Trying to access array offset on value of type null[/www/chemical/application/system/admin/Material.php:252]
+---------------------------------------------------------------
+
+[2026-01-25T14:27:04+08:00] 172.19.0.1 GET chemical.com/admin.php/system/supplier/index.html?page=1&limit=20
+[运行时间：0.419422s] [吞吐率：2.38req/s] [内存消耗：567.06kb] [文件加载：114]
+[ error ] [0]致命错误: Class 'app\system\admin\DeliveryModel' not found[/www/chemical/application/system/admin/Supplier.php:66]
+---------------------------------------------------------------
+
+[2026-01-25T14:27:24+08:00] 172.19.0.1 GET chemical.com/admin.php/system/supplier/index.html?page=1&limit=20
+[运行时间：0.408735s] [吞吐率：2.45req/s] [内存消耗：566.47kb] [文件加载：114]
+[ error ] [0]致命错误: Class 'app\system\admin\DeliveryModel' not found[/www/chemical/application/system/admin/Supplier.php:66]
+---------------------------------------------------------------
+
+[2026-01-25T14:30:37+08:00] 172.19.0.1 GET chemical.com/admin.php/system/supplier/index.html?page=1&limit=20
+[运行时间：0.445971s] [吞吐率：2.24req/s] [内存消耗：614.09kb] [文件加载：117]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.id' in 'field list'[/www/chemical/thinkphp/library/think/db/Connection.php:687]
+---------------------------------------------------------------
+
+[2026-01-25T14:56:51+08:00] 172.19.0.1 POST chemical.com/admin.php/system/material/uploadfile.html
+[运行时间：0.481023s] [吞吐率：2.08req/s] [内存消耗：557.45kb] [文件加载：114]
+[ error ] [8]iconv(): Wrong charset, conversion from `utf-8' to `gb2312' is not allowed[/www/chemical/application/system/admin/Material.php:413]
+---------------------------------------------------------------
+
+[2026-01-25T15:03:20+08:00] 172.19.0.1 POST chemical.com/admin.php/system/material/uploadfile.html
+[运行时间：0.591056s] [吞吐率：1.69req/s] [内存消耗：557.45kb] [文件加载：114]
+[ error ] [8]iconv(): Wrong charset, conversion from `utf-8' to `gbk' is not allowed[/www/chemical/application/system/admin/Material.php:413]
+---------------------------------------------------------------
+
+[2026-01-25T15:05:41+08:00] 172.19.0.1 POST chemical.com/admin.php/system/material/uploadfile.html
+[运行时间：0.609304s] [吞吐率：1.64req/s] [内存消耗：557.45kb] [文件加载：114]
+[ error ] [8]iconv(): Wrong charset, conversion from `utf-8' to `gbk' is not allowed[/www/chemical/application/system/admin/Material.php:413]
+---------------------------------------------------------------
+
+[2026-01-25T15:06:10+08:00] 172.19.0.1 POST chemical.com/admin.php/system/material/uploadfile.html
+[运行时间：0.871328s] [吞吐率：1.15req/s] [内存消耗：1,006.16kb] [文件加载：162]
+[ error ] [8]Trying to access array offset on value of type int[/www/chemical/public/PHPExcel/Classes/PHPExcel/Cell/DefaultValueBinder.php:82]
+---------------------------------------------------------------
+
+[2026-01-25T15:08:48+08:00] 172.19.0.1 POST chemical.com/admin.php/system/material/uploadfile.html
+[运行时间：0.955287s] [吞吐率：1.05req/s] [内存消耗：1,093.68kb] [文件加载：162]
+[ error ] [8]Trying to access array offset on value of type int[/www/chemical/public/PHPExcel/Classes/PHPExcel/Cell/DefaultValueBinder.php:82]
+---------------------------------------------------------------
+
+[2026-01-25T15:10:22+08:00] 172.19.0.1 POST chemical.com/admin.php/system/product/uploadfile.html
+[运行时间：0.830545s] [吞吐率：1.20req/s] [内存消耗：932.56kb] [文件加载：162]
+[ error ] [8]Trying to access array offset on value of type int[/www/chemical/public/PHPExcel/Classes/PHPExcel/Cell/DefaultValueBinder.php:82]
+---------------------------------------------------------------
+
+[2026-01-25T15:10:59+08:00] 172.19.0.1 POST chemical.com/admin.php/system/product/uploadfile.html
+[运行时间：0.857428s] [吞吐率：1.17req/s] [内存消耗：998.59kb] [文件加载：162]
+[ error ] [8]Trying to access array offset on value of type int[/www/chemical/public/PHPExcel/Classes/PHPExcel/Cell/DefaultValueBinder.php:82]
+---------------------------------------------------------------
+
+[2026-01-25T15:14:58+08:00] 172.19.0.1 POST chemical.com/admin.php/system/product/uploadfile.html
+[运行时间：0.842910s] [吞吐率：1.19req/s] [内存消耗：998.62kb] [文件加载：163]
+[ error ] [8]Trying to access array offset on value of type int[/www/chemical/public/PHPExcel/Classes/PHPExcel/Cell/DefaultValueBinder.php:82]
+---------------------------------------------------------------
+
+[2026-01-25T15:33:04+08:00] 172.19.0.1 POST chemical.com/admin.php/system/product/uploadfile.html
+[运行时间：0.870531s] [吞吐率：1.15req/s] [内存消耗：940.47kb] [文件加载：164]
+[ error ] [8]Trying to access array offset on value of type int[/www/chemical/public/PHPExcel/Classes/PHPExcel/Cell/DefaultValueBinder.php:82]
+---------------------------------------------------------------
+
+[2026-01-25T15:36:46+08:00] 172.19.0.1 POST chemical.com/admin.php/system/product/uploadfile.html
+[运行时间：0.877393s] [吞吐率：1.14req/s] [内存消耗：940.30kb] [文件加载：164]
+[ error ] [8]Trying to access array offset on value of type int[/www/chemical/public/PHPExcel/Classes/PHPExcel/Cell/DefaultValueBinder.php:82]
+---------------------------------------------------------------
+
+[2026-01-25T15:39:51+08:00] 172.19.0.1 POST chemical.com/admin.php/system/product/uploadfile.html
+[运行时间：0.772952s] [吞吐率：1.29req/s] [内存消耗：995.03kb] [文件加载：166]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'inchikey' cannot be null[/www/chemical/thinkphp/library/think/db/Connection.php:764]

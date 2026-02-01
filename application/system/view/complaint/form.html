@@ -1,0 +1,95 @@
+<form class="layui-form" action="{:url()}" method="post" id="editForm">
+ 
+    <div class="layui-form-item">
+		<label class="layui-form-label">货号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号">
+        </div>
+		<label class="layui-form-label">CAS号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">销售订单号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-sales_order_no" name="sales_order_no" lay-verify="required" autocomplete="off" placeholder="请输入销售订单号">
+        </div>
+        <label class="layui-form-label">客户订单号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-customer_order_no" name="customer_order_no" lay-verify="" autocomplete="off" placeholder="请输入客户订单号">
+        </div>
+        <label class="layui-form-label">采购单号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_order_no" name="purchase_order_no" lay-verify="" autocomplete="off" placeholder="请输入采购单号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+		<label class="layui-form-label">订单数量</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-order_quantity" name="order_quantity" lay-verify="" autocomplete="off" placeholder="请输入订单数量">
+        </div>
+		<label class="layui-form-label">订单金额</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-order_amount" name="order_amount" lay-verify="" autocomplete="off" placeholder="请输入订单金额">
+        </div>
+        <label class="layui-form-label">纯度</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purity" name="purity" lay-verify="" autocomplete="off" placeholder="请输入纯度">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">客户名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-customer_name" name="customer_name" lay-verify="" autocomplete="off" placeholder="请输入客户名称">
+        </div>
+		<label class="layui-form-label">销售人员</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-sales_person" name="sales_person" lay-verify="" autocomplete="off" placeholder="请输入销售人员">
+        </div>
+        <label class="layui-form-label">供应商名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-supplier_name" name="supplier_name" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购员</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchaser" name="purchaser" lay-verify="" autocomplete="off" placeholder="请输入采购员">
+        </div>
+        <label class="layui-form-label">投诉内容</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-complaint_content" name="complaint_content" lay-verify="" autocomplete="off" placeholder="请输入投诉内容">
+        </div>
+        <label class="layui-form-label">处理结果</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-result" name="result" lay-verify="" autocomplete="off" placeholder="请输入处理结果">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            {:token()}
+            <input type="hidden" class="field-id" name="id">
+        </div>
+    </div>
+    <div class="pop-bottom-bar">
+        <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit" hisi-data="{pop: true, refresh: true}">提交保存</button>
+        <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
+    </div>
+    </form>
+
+    {include file="block/layui" /}
+    <script>
+    var formData = {:json_encode($formData)};
+    layui.use(['form', 'func','upload'], function() {
+        var $ = layui.jquery, form = layui.form, upload = layui.upload;
+        layui.func.assign(formData);
+    });
+	function ShowLayerMessage(msgStr,msgIndex)
+	{
+		layui.use(['layer'], function(){
+			var layer = layui.layer;
+			layer.msg(msgStr, {icon: msgIndex});
+		});
+	}
+    </script>

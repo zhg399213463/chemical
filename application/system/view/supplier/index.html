@@ -1,0 +1,86 @@
+<div class="layui-field-box">
+<form class="layui-form" id="hisiSearch">
+	<div class="layui-form-item mb0">
+		<!--搜索  -->
+		  <div class="layui-form-item">
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input field-supplier_name" name="supplier_name" value="{:input('get.supplier_name')}"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
+			</div>
+			<button class="layui-btn search_btn" type="submit">搜索</button>
+		  </div>
+	</div>
+</form>
+</div>
+<table id="dataTable"></table>
+
+{include file="block/layui" /}
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal" title="修改">修改</a>
+	<a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+</script>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-group fl">
+        <a href="{:url('add')}" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-circle-fine"  title="添加">&nbsp;添加</a>
+        <a data-href="{:url('del')}" class="layui-btn layui-btn-primary layui-btn-sm j-page-btns confirm layui-icon layui-icon-close red">&nbsp;删除</a>
+    </div>
+</script>
+
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url()}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,toolbar: '#toolbar'
+            ,defaultToolbar: ['filter']
+            ,cols: [[ //表头
+                 {type:'checkbox',fixed:'left'}
+				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
+				,{field: 'supplier_name', title: '供应商名称', width: 100}
+				,{field: 'credit_code', title: '统一社会信用代码', width: 100}
+				,{field: 'supplier_type', title: '供应商类型', width: 100, templet: function(d){
+						var typeMap = {
+							'1': '生产商',
+							'2': '代理商',
+							'3': '经销商'
+						};
+						return typeMap[d.supplier_type] || '未知';
+					}},
+				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
+						var typeMap = {
+							'1': '普通发票',
+							'2': '专用发票',
+						};
+						return typeMap[d.invoice_type] || '未知';
+					}},
+                ,{field: 'tax_rate', title: '税率', width: 100}
+				,{field: 'payment_type', title: '付款类型', width: 100, templet: function(d){
+						var typeMap = {
+							'1': '预付款',
+							'2': '月结',
+						};
+						return typeMap[d.payment_type] || '未知';
+					}},
+				,{field: 'bank_account', title: '账号', width: 100}
+				,{field: 'bank_name', title: '开户行', width: 100}
+				,{field: 'bank_branch', title: '开户支行', width: 100}
+				,{field: 'address', title: '地址', width: 100}
+				,{field: 'contact_person', title: '联系人', width: 100}
+				,{field: 'contact_phone', title: '联系电话', width: 100}
+				,{field: 'contact_mobile', title: '手机号', width: 100}
+				,{field: 'contact_qq', title: 'qq', width: 100}
+				,{field: 'contact_email', title: '邮箱', width: 100}
+				,{field: 'wechat', title: '微信号', width: 100}
+            ]]
+        });
+    });
+</script>

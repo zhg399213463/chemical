@@ -1,0 +1,87 @@
+<form class="layui-form" action="{:url()}" method="post" id="editForm">
+ 
+    <div class="layui-form-item">
+		<label class="layui-form-label">货号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号">
+        </div>
+		<label class="layui-form-label">CAS号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">供应商名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+        </div>
+        <label class="layui-form-label">采购单号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-po_num" name="po_num" lay-verify="" autocomplete="off" placeholder="请输入采购单号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+		<label class="layui-form-label">采购数量</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_num" name="purchase_num" lay-verify="" autocomplete="off" placeholder="请输入采购数量">
+        </div>
+		<label class="layui-form-label">到货数量</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-delivered_num" name="delivered_num" lay-verify="" autocomplete="off" placeholder="请输入到货数量">
+        </div>
+        <label class="layui-form-label">单位</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-unit" name="unit" lay-verify="" autocomplete="off" placeholder="请输入单位">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">外观</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-physical_trait" name="physical_trait" lay-verify="" autocomplete="off" placeholder="请输入外观">
+        </div>
+		<label class="layui-form-label">到货日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-delivered_date" name="delivered_date" lay-verify="" autocomplete="off" placeholder="请输入到货日前">
+        </div>
+        <label class="layui-form-label">是否送检</label>
+        <div class="layui-input-inline">
+            <input type="radio" class="field-is_analysis" name="is_analysis" value="1" title="是" checked>
+            <input type="radio" class="field-is_analysis" name="is_analysis" value="0" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">供应商评价</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-supplier_evaluation" name="supplier_evaluation" lay-verify="" autocomplete="off" placeholder="请输入供应商评价">
+        </div>
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-remark" name="remark" lay-verify="" autocomplete="off" placeholder="备注">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            {:token()}
+            <input type="hidden" class="field-id" name="id">
+        </div>
+    </div>
+    <div class="pop-bottom-bar">
+        <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit" hisi-data="{pop: true, refresh: true}">提交保存</button>
+        <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
+    </div>
+    </form>
+    {include file="block/layui" /}
+    <script>
+    var formData = {:json_encode($formData)};
+    layui.use(['form', 'func','upload'], function() {
+        var $ = layui.jquery, form = layui.form, upload = layui.upload;
+        layui.func.assign(formData);
+    });
+	function ShowLayerMessage(msgStr,msgIndex)
+	{
+		layui.use(['layer'], function(){
+			var layer = layui.layer;
+			layer.msg(msgStr, {icon: msgIndex});
+		});
+	}
+    </script>

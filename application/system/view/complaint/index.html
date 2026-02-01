@@ -1,0 +1,68 @@
+<div class="layui-field-box">
+<form class="layui-form" id="hisiSearch">
+	<div class="layui-form-item mb0">
+		<!--搜索  -->
+		  <div class="layui-form-item">
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input field-catalog" name="catalog" value="{:input('get.catalog')}"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input field-supplier_name" name="supplier_name" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+			</div>
+			<button class="layui-btn search_btn" type="submit">搜索</button>
+		  </div>
+	</div>
+</form>
+</div>
+<table id="dataTable"></table>
+
+{include file="block/layui" /}
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal" title="修改">修改</a>
+	<a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+</script>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-group fl">
+        <a href="{:url('add')}" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-circle-fine"  title="添加">&nbsp;添加</a>
+        <a data-href="{:url('del')}" class="layui-btn layui-btn-primary layui-btn-sm j-page-btns confirm layui-icon layui-icon-close red">&nbsp;删除</a>
+    </div>
+</script>
+
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url()}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,toolbar: '#toolbar'
+            ,defaultToolbar: ['filter']
+            ,cols: [[ //表头
+                 {type:'checkbox',fixed:'left'}
+				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
+				,{field: 'catalog', title: '货号', width: 100}
+                ,{field: 'cas', title: 'CAS', width: 100}
+				,{field: 'supplier_name', title: '供应商名称', width: 100}
+				,{field: 'sales_order_no', title: '销售订单号', width: 100}
+				,{field: 'customer_order_no', title: '客户订单号', width: 100}
+				,{field: 'purchase_order_no', title: '对应采购单号', width: 100}
+				,{field: 'purity', title: '纯度', width: 100}
+				,{field: 'order_quantity', title: '订单数量', width: 100}
+				,{field: 'order_amount', title: '订单金额', width: 100}
+				,{field: 'customer_name', title: '客户名称', width: 100}
+				,{field: 'sales_person', title: '销售人员', width: 100}
+				,{field: 'purchaser', title: '采购员', width: 100}
+				,{field: 'complaint_content', title: '投诉内容', width: 500}
+				,{field: 'result', title: '处理结果', width: 100}
+            ]]
+        });
+    });
+</script>

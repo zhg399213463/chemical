@@ -1,0 +1,211 @@
+<form class="layui-form" action="{:url()}" method="post" id="editForm">
+ 
+    <div class="layui-form-item">
+		<label class="layui-form-label">货号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号">
+        </div>
+        <label class="layui-form-label">中文名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
+        </div>
+		<label class="layui-form-label">英文名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
+        </div>
+		
+		<label class="layui-form-label">CAS号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">MDL</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-mdl" name="mdl" lay-verify="required" autocomplete="off" placeholder="请输入MDL">
+        </div>
+		<label class="layui-form-label">纯度</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purity" name="purity" lay-verify="required" autocomplete="off" placeholder="请输入纯度">
+        </div>
+		<label class="layui-form-label">分子式</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-mf" name="mf" lay-verify="" autocomplete="off" placeholder="请输入分子式">
+        </div>
+		<label class="layui-form-label">分子量</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-mw" name="mw" lay-verify="" autocomplete="off" placeholder="请输入分子量">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Smiles</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-smiles" name="smiles" lay-verify="" autocomplete="off" placeholder="请输入Smiles">
+        </div>
+		<label class="layui-form-label">InChI</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-inchi" name="inchi" lay-verify="" autocomplete="off" placeholder="请输入InChI">
+        </div>
+		<label class="layui-form-label">InChIKey</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-inchikey" name="inchikey" lay-verify="" autocomplete="off" placeholder="请输入InChIKey">
+        </div>
+		<label class="layui-form-label">GHS</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-ghs" name="ghs" lay-verify="" autocomplete="off" placeholder="请输入GHS">
+        </div>
+    </div>
+   
+    <div class="layui-form-item">
+        <label class="layui-form-label">储存条件</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-store" name="store" autocomplete="off" placeholder="请输入储存条件">
+        </div>
+		 <label class="layui-form-label">运输条件</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-transport" name="transport" autocomplete="off" placeholder="请输入运输条件">
+        </div>
+		 <label class="layui-form-label">外观</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-physical_trait" name="physical_trait" autocomplete="off" placeholder="请输入外观">
+        </div>
+		 <label class="layui-form-label">分装规则</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-packing_rules" name="packing_rules" autocomplete="off" placeholder="请输入分装规则">
+        </div>
+    </div>
+	<div class="layui-form-item">
+        <label class="layui-form-label">包装材料</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-package" name="package" autocomplete="off" placeholder="请输入包装材料">
+        </div>
+		 <label class="layui-form-label">核磁检测</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-nmr" name="nmr" lay-verify="required" autocomplete="off" placeholder="请输入核磁检测">
+        </div>
+		 <label class="layui-form-label">核磁溶剂</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-nmrsolvent" name="nmrsolvent" autocomplete="off" placeholder="请输入核磁溶剂">
+        </div>
+		 <label class="layui-form-label">HPLC</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-hplc" name="hplc" autocomplete="off" placeholder="请输入HPLC">
+        </div>
+    </div>
+	<div class="layui-form-item">
+        <label class="layui-form-label">GC</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-gc" name="gc" autocomplete="off" placeholder="请输入GC">
+        </div>
+		 <label class="layui-form-label">质谱</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-ms" name="ms" autocomplete="off" placeholder="请输入质谱">
+        </div>
+		 <label class="layui-form-label">旋光检测</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-optical" name="optical" autocomplete="off" placeholder="请输入旋光检测">
+        </div>
+		 <label class="layui-form-label">EE%</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-ee" name="ee" autocomplete="off" placeholder="请输入EE%">
+        </div>
+    </div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">复检周期</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-review" name="review" autocomplete="off" placeholder="复检周期">
+        </div>
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <textarea  class="layui-textarea field-remark" name="remark"  placeholder="请输入内容" class="layui-textarea" style="width:300px;"></textarea>
+        </div>
+    </div>
+   <div class="layui-form-item layui-form-text">	
+		<div class="layui-input-block">
+			<div class="layui-form-item layui-upload">
+			<fieldset class="layui-elem-field site-demo-button">
+			<div class="layui-btn-group">
+			<button id="upload_img_tag" class="layui-btn" type="button"><i class="layui-icon" title="上传缩略图">&#xe62f;</i>略图上传</button>
+			 <input type="hidden" class="field-struture" name="struture" id="struture">
+			</div>
+			</fieldset>
+			<fieldset class="layui-elem-field"><legend>图片（图片大小不能超过20兆）：</legend>
+			<div id="ask_img_list"  class="layui-field-box layui-upload-list">
+				{if $formData}
+				<div>
+					<a href="{$formData['struture']}" target="view_window">
+					<img class="layui-upload-img" src="{$formData['struture']}" style="width: 200px;">
+					</a>
+				</div>
+				{/if}
+			</div> 
+			</fieldset>
+			</div>
+		</div>
+    </div>
+   
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            {:token()}
+            <input type="hidden" class="field-id" name="id">
+        </div>
+    </div>
+    <div class="pop-bottom-bar">
+        <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit" hisi-data="{pop: true, refresh: true}">提交保存</button>
+        <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
+    </div>
+    </form>
+    {include file="block/layui" /}
+    <script>
+    var formData = {:json_encode($formData)};
+    layui.use(['form', 'func','upload'], function() {
+        var $ = layui.jquery, form = layui.form, upload = layui.upload;
+        layui.func.assign(formData);
+		var upload_url = '{:url("upload")}';
+		var upload = layui.
+			upload.render({
+				 elem: '#upload_img_tag'
+				 ,url: upload_url 
+				 ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+					 layer.open({type: 3});//信息加载,上传loading
+				 }
+				 ,done: function(res, index, upload){ //上传后的回调
+					 layer.closeAll('loading'); //关闭loading
+					 if(res.code="0") 
+					 {  
+						 var tem_obj = res.data;
+						
+						 if(tem_obj)
+						 {
+							var file_path = tem_obj.file;
+							var dataHtmlStr ='<div><a href="'+file_path+'" target="view_window"><img class="layui-upload-img" src="'+file_path+'" style="width: 200px;"></a></div>';
+							Cur_Tag =  $("#ask_img_list");
+							if(Cur_Tag) 
+								Cur_Tag.html(dataHtmlStr);	
+							$("#struture").val(file_path);
+						 }	
+					 }
+		             else
+		             {
+		            	 ShowLayerMessage("文件上传失败！",5);
+		             }
+				 } 
+				 ,error: function(index, upload){
+					layer.closeAll('loading'); //关闭loading
+					ShowLayerMessage("文件上传失败！",5);
+				 }
+				 ,accept: 'file' //允许上传的文件类型
+				 ,exts:'jpg|png|gif|bmp|jpeg'
+				 //,multiple:true //是否允许多文件上传。设置 true即可开启。不支持ie8/9		 
+				,size: 20480 //最大允许上传的文件大小，20M
+				  //,……
+			})
+    });
+	function ShowLayerMessage(msgStr,msgIndex)
+	{
+		layui.use(['layer'], function(){
+			var layer = layui.layer;
+			layer.msg(msgStr, {icon: msgIndex});
+		});
+	}
+    </script>

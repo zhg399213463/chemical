@@ -1,0 +1,90 @@
+<form class="layui-form" action="{:url()}" method="post" id="editForm" lay-filter="editForm">
+ 
+    <div class="layui-form-item">
+		<label class="layui-form-label">货号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号">
+        </div>
+		<label class="layui-form-label">CAS号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">供应商名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+        </div>
+        <label class="layui-form-label">数量</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
+        </div>
+    </div>
+    <div class="layui-form-item">
+		<label class="layui-form-label">不含税价格</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
+        </div>
+		<label class="layui-form-label">总价格</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-delivered_num" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
+        </div>
+        <label class="layui-form-label">税率</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发票类型</label>
+        <div class="layui-input-inline">
+            <select name="invoice_type" lay-verify="">
+                <option value="1" selected>普通发票</option>
+                <option value="2">专用发票</option>
+            </select>
+        </div>
+        <label class="layui-form-label">是否提供谱图</label>
+        <div class="layui-input-inline">
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-remark" name="remark" lay-verify="" autocomplete="off" placeholder="备注">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            {:token()}
+            <input type="hidden" class="field-id" name="id">
+            <input type="hidden" class="field-inquiry_no" name="inquiry_no">
+        </div>
+    </div>
+    <div class="pop-bottom-bar">
+        <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit" hisi-data="{pop: true, refresh: true}">提交保存</button>
+        <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
+    </div>
+    </form>
+
+    {include file="block/layui" /}
+    <script>
+    var formData = {:json_encode($formData)};
+    layui.use(['form', 'func','upload'], function() {
+        var $ = layui.jquery, form = layui.form, upload = layui.upload;
+        layui.func.assign(formData);
+
+        form.val('editForm', {
+            "invoice_type": formData.invoice_type,
+        });
+        // 必须重新渲染
+        form.render('select');
+    });
+	function ShowLayerMessage(msgStr,msgIndex)
+	{
+		layui.use(['layer'], function(){
+			var layer = layui.layer;
+			layer.msg(msgStr, {icon: msgIndex});
+		});
+	}
+    </script>

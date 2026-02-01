@@ -1,0 +1,5 @@
+---------------------------------------------------------------
+
+[2026-02-01T19:33:44+08:00] 172.19.0.1 GET chemical.com/admin.php/system/inquiry/add.html
+[运行时间：0.507267s] [吞吐率：1.97req/s] [内存消耗：369.48kb] [文件加载：109]
+[ error ] [8]Trying to access array offset on value of type bool[/www/chemical/application/system/admin/Admin.php:48]

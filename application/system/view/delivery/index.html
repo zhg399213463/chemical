@@ -1,0 +1,86 @@
+<div class="layui-field-box">
+<form class="layui-form" id="hisiSearch">
+	<div class="layui-form-item mb0">
+		<!--搜索  -->
+		  <div class="layui-form-item">
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input field-catalog" name="catalog" value="{:input('get.catalog')}"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
+			</div>
+
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+			</div>
+			 <div class="layui-input-inline">
+				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+			</div>
+			<button class="layui-btn search_btn" type="submit">搜索</button>
+		  </div>
+	</div>
+</form>
+</div>
+<table id="dataTable"></table>
+
+{include file="block/layui" /}
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal" title="修改">修改</a>
+	<a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+</script>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-group fl">
+        <a href="{:url('add')}" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-circle-fine"  title="添加">&nbsp;添加</a>
+        <a data-href="{:url('del')}" class="layui-btn layui-btn-primary layui-btn-sm j-page-btns confirm layui-icon layui-icon-close red">&nbsp;删除</a>
+    </div>
+</script>
+
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url()}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,toolbar: '#toolbar'
+            ,defaultToolbar: ['filter']
+            ,cols: [[ //表头
+                 {type:'checkbox',fixed:'left'}
+				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
+				,{field: 'catalog', title: '货号', width: 100}
+                ,{field: 'name', title: '中文名称', width: 100}
+                ,{field: 'ename', title: '英文名称', width: 100}
+                ,{field: 'cas', title: 'CAS', width: 100}
+				,{field: 'supplier', title: '供应商名称', width: 100}
+				,{field: 'po_num', title: '采购单号', width: 100}
+				,{field: 'purchase_num', title: '订购数量', width: 100}
+				,{field: 'delivered_num', title: '到货数量', width: 100}
+				,{field: 'unit', title: '单位', width: 100}
+				,{field: 'delivered_date', title: '到货日前', width: 100}
+				,{field: 'supplier_evaluation', title: '供应商评价', width: 100}
+				,{field: 'is_analysis', title: '是否送检',width: 100, templet: function(d){
+						return d.is_analysis == 1 ? '是' : '否';
+					}},
+				,{field: 'mdl', title: 'MDL', width: 100}
+				,{field: 'purity', title: '纯度', width: 100}
+				,{field: 'mf', title: '分子式', width: 100}
+				,{field: 'mw', title: '分子量', width: 100}
+				,{field: 'nmr', title: '核磁', width: 100}
+				,{field: 'nmrsolvent', title: '溶剂', width: 100}
+                ,{field: 'physical_trait', title: '外观', width: 100}
+				,{field: 'remark', title: '备注', width: 100}
+            ]]
+        });
+    });
+</script>
