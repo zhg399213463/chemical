@@ -1,4 +1,4 @@
-<?php /*a:6:{s:57:"/www/chemical/application/system/view/purchase/index.html";i:1769262761;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
+<?php /*a:6:{s:57:"/www/chemical/application/system/view/purchase/index.html";i:1769953638;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
 <?php if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 <!DOCTYPE html>
 <html>
@@ -182,16 +182,6 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			<div class="layui-input-inline">
 				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
 			</div>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
-			</div>
-
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
-			</div>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
-			</div>
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
 			</div>
@@ -243,31 +233,36 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                  {type:'checkbox',fixed:'left'}
 				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
 				,{field: 'catalog', title: '货号', width: 100}
-                ,{field: 'name', title: '中文名称', width: 100}
-                ,{field: 'ename', title: '英文名称', width: 100}
+                ,{field: 'purchase_no', title: '采购单号', width: 100}
+                ,{field: 'inquiry_no', title: '询价单号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
 				,{field: 'supplier', title: '供应商名称', width: 100}
-				,{field: 'po_num', title: '采购单号', width: 100}
-				,{field: 'purchase_num', title: '订购数量', width: 100}
-				,{field: 'delivered_num', title: '到货数量', width: 100}
+				,{field: 'quantity', title: '数量', width: 100}
 				,{field: 'unit', title: '单位', width: 100}
-				,{field: 'delivered_date', title: '到货日前', width: 100}
-				,{field: 'supplier_evaluation', title: '供应商评价', width: 100}
-				,{field: 'is_analysis', title: '是否送检',width: 100, templet: function(d){
+				,{field: 'price_excluding_tax', title: '不含税价', width: 100}
+				,{field: 'total_price', title: '总价', width: 100}
+				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
+						var typeMap = {
+							'1': '普通发票',
+							'2': '专用发票',
+						};
+						return typeMap[d.invoice_type] || '未知';
+					}},
+				,{field: 'tax_rate', title: '税率', width: 100}
+				,{field: 'tracking_no', title: '运单号', width: 100}
+				,{field: 'tracking_info', title: '运动信息', width: 100}
+				,{field: 'need_spectrum', title: '是否提供谱图',width: 100, templet: function(d){
 						return d.is_analysis == 1 ? '是' : '否';
 					}},
-				,{field: 'mdl', title: 'MDL', width: 100}
-				,{field: 'purity', title: '纯度', width: 100}
-				,{field: 'mf', title: '分子式', width: 100}
-				,{field: 'mw', title: '分子量', width: 100}
-				,{field: 'nmr', title: '核磁', width: 100}
-				,{field: 'nmrsolvent', title: '溶剂', width: 100}
-                ,{field: 'physical_trait', title: '外观', width: 100}
+				,{field: 'purchase_date', title: '采购日期', width: 100}
+				,{field: 'delivery_date', title: '要求到货日期', width: 100}
+				,{field: 'actual_delivery_date', title: '实际到货日期', width: 100}
 				,{field: 'remark', title: '备注', width: 100}
             ]]
         });
     });
 </script>
+
                     </div>
                 </div>
             </div>
@@ -295,16 +290,6 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			<div class="layui-input-inline">
 				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
 			</div>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
-			</div>
-
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
-			</div>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
-			</div>
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
 			</div>
@@ -356,31 +341,36 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                  {type:'checkbox',fixed:'left'}
 				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
 				,{field: 'catalog', title: '货号', width: 100}
-                ,{field: 'name', title: '中文名称', width: 100}
-                ,{field: 'ename', title: '英文名称', width: 100}
+                ,{field: 'purchase_no', title: '采购单号', width: 100}
+                ,{field: 'inquiry_no', title: '询价单号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
 				,{field: 'supplier', title: '供应商名称', width: 100}
-				,{field: 'po_num', title: '采购单号', width: 100}
-				,{field: 'purchase_num', title: '订购数量', width: 100}
-				,{field: 'delivered_num', title: '到货数量', width: 100}
+				,{field: 'quantity', title: '数量', width: 100}
 				,{field: 'unit', title: '单位', width: 100}
-				,{field: 'delivered_date', title: '到货日前', width: 100}
-				,{field: 'supplier_evaluation', title: '供应商评价', width: 100}
-				,{field: 'is_analysis', title: '是否送检',width: 100, templet: function(d){
+				,{field: 'price_excluding_tax', title: '不含税价', width: 100}
+				,{field: 'total_price', title: '总价', width: 100}
+				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
+						var typeMap = {
+							'1': '普通发票',
+							'2': '专用发票',
+						};
+						return typeMap[d.invoice_type] || '未知';
+					}},
+				,{field: 'tax_rate', title: '税率', width: 100}
+				,{field: 'tracking_no', title: '运单号', width: 100}
+				,{field: 'tracking_info', title: '运动信息', width: 100}
+				,{field: 'need_spectrum', title: '是否提供谱图',width: 100, templet: function(d){
 						return d.is_analysis == 1 ? '是' : '否';
 					}},
-				,{field: 'mdl', title: 'MDL', width: 100}
-				,{field: 'purity', title: '纯度', width: 100}
-				,{field: 'mf', title: '分子式', width: 100}
-				,{field: 'mw', title: '分子量', width: 100}
-				,{field: 'nmr', title: '核磁', width: 100}
-				,{field: 'nmrsolvent', title: '溶剂', width: 100}
-                ,{field: 'physical_trait', title: '外观', width: 100}
+				,{field: 'purchase_date', title: '采购日期', width: 100}
+				,{field: 'delivery_date', title: '要求到货日期', width: 100}
+				,{field: 'actual_delivery_date', title: '实际到货日期', width: 100}
 				,{field: 'remark', title: '备注', width: 100}
             ]]
         });
     });
 </script>
+
                 </div>
             </div>
         </div>
@@ -415,16 +405,6 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			<div class="layui-input-inline">
 				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
 			</div>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
-			</div>
-
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
-			</div>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
-			</div>
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
 			</div>
@@ -476,31 +456,36 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                  {type:'checkbox',fixed:'left'}
 				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
 				,{field: 'catalog', title: '货号', width: 100}
-                ,{field: 'name', title: '中文名称', width: 100}
-                ,{field: 'ename', title: '英文名称', width: 100}
+                ,{field: 'purchase_no', title: '采购单号', width: 100}
+                ,{field: 'inquiry_no', title: '询价单号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
 				,{field: 'supplier', title: '供应商名称', width: 100}
-				,{field: 'po_num', title: '采购单号', width: 100}
-				,{field: 'purchase_num', title: '订购数量', width: 100}
-				,{field: 'delivered_num', title: '到货数量', width: 100}
+				,{field: 'quantity', title: '数量', width: 100}
 				,{field: 'unit', title: '单位', width: 100}
-				,{field: 'delivered_date', title: '到货日前', width: 100}
-				,{field: 'supplier_evaluation', title: '供应商评价', width: 100}
-				,{field: 'is_analysis', title: '是否送检',width: 100, templet: function(d){
+				,{field: 'price_excluding_tax', title: '不含税价', width: 100}
+				,{field: 'total_price', title: '总价', width: 100}
+				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
+						var typeMap = {
+							'1': '普通发票',
+							'2': '专用发票',
+						};
+						return typeMap[d.invoice_type] || '未知';
+					}},
+				,{field: 'tax_rate', title: '税率', width: 100}
+				,{field: 'tracking_no', title: '运单号', width: 100}
+				,{field: 'tracking_info', title: '运动信息', width: 100}
+				,{field: 'need_spectrum', title: '是否提供谱图',width: 100, templet: function(d){
 						return d.is_analysis == 1 ? '是' : '否';
 					}},
-				,{field: 'mdl', title: 'MDL', width: 100}
-				,{field: 'purity', title: '纯度', width: 100}
-				,{field: 'mf', title: '分子式', width: 100}
-				,{field: 'mw', title: '分子量', width: 100}
-				,{field: 'nmr', title: '核磁', width: 100}
-				,{field: 'nmrsolvent', title: '溶剂', width: 100}
-                ,{field: 'physical_trait', title: '外观', width: 100}
+				,{field: 'purchase_date', title: '采购日期', width: 100}
+				,{field: 'delivery_date', title: '要求到货日期', width: 100}
+				,{field: 'actual_delivery_date', title: '实际到货日期', width: 100}
 				,{field: 'remark', title: '备注', width: 100}
             ]]
         });
     });
 </script>
+
                     </div>
                 </div>
             </div>
@@ -516,16 +501,6 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			<div class="layui-input-inline">
 				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
 			</div>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
-			</div>
-
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
-			</div>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
-			</div>
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
 			</div>
@@ -577,31 +552,36 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                  {type:'checkbox',fixed:'left'}
 				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
 				,{field: 'catalog', title: '货号', width: 100}
-                ,{field: 'name', title: '中文名称', width: 100}
-                ,{field: 'ename', title: '英文名称', width: 100}
+                ,{field: 'purchase_no', title: '采购单号', width: 100}
+                ,{field: 'inquiry_no', title: '询价单号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
 				,{field: 'supplier', title: '供应商名称', width: 100}
-				,{field: 'po_num', title: '采购单号', width: 100}
-				,{field: 'purchase_num', title: '订购数量', width: 100}
-				,{field: 'delivered_num', title: '到货数量', width: 100}
+				,{field: 'quantity', title: '数量', width: 100}
 				,{field: 'unit', title: '单位', width: 100}
-				,{field: 'delivered_date', title: '到货日前', width: 100}
-				,{field: 'supplier_evaluation', title: '供应商评价', width: 100}
-				,{field: 'is_analysis', title: '是否送检',width: 100, templet: function(d){
+				,{field: 'price_excluding_tax', title: '不含税价', width: 100}
+				,{field: 'total_price', title: '总价', width: 100}
+				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
+						var typeMap = {
+							'1': '普通发票',
+							'2': '专用发票',
+						};
+						return typeMap[d.invoice_type] || '未知';
+					}},
+				,{field: 'tax_rate', title: '税率', width: 100}
+				,{field: 'tracking_no', title: '运单号', width: 100}
+				,{field: 'tracking_info', title: '运动信息', width: 100}
+				,{field: 'need_spectrum', title: '是否提供谱图',width: 100, templet: function(d){
 						return d.is_analysis == 1 ? '是' : '否';
 					}},
-				,{field: 'mdl', title: 'MDL', width: 100}
-				,{field: 'purity', title: '纯度', width: 100}
-				,{field: 'mf', title: '分子式', width: 100}
-				,{field: 'mw', title: '分子量', width: 100}
-				,{field: 'nmr', title: '核磁', width: 100}
-				,{field: 'nmrsolvent', title: '溶剂', width: 100}
-                ,{field: 'physical_trait', title: '外观', width: 100}
+				,{field: 'purchase_date', title: '采购日期', width: 100}
+				,{field: 'delivery_date', title: '要求到货日期', width: 100}
+				,{field: 'actual_delivery_date', title: '实际到货日期', width: 100}
 				,{field: 'remark', title: '备注', width: 100}
             ]]
         });
     });
 </script>
+
         </div>
 <?php endswitch; if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 </body>

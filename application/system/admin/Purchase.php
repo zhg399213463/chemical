@@ -11,7 +11,7 @@
 
 namespace app\system\admin;
 
-use app\system\model\SystemDelivery as DeliveryModel;
+use app\system\model\SystemPurchaseOrder as PurchaseModel;
 use app\system\model\SystemProduct as ProductModel;
 
 /**
@@ -42,18 +42,7 @@ class Purchase extends Admin
             $where      = $data = [];
             $page       = $this->request->param('page/d', 1);
             $limit      = $this->request->param('limit/d', 15);
-            $name    = $this->request->param('name/s');
-            if ($name) {
-                $where[] = ['name', 'like', "%{$name}%"];
-            }
-			$ename  = $this->request->param('ename/s');
-            if ($ename) {
-                $where[] = ['ename', 'like', "%{$ename}%"];
-            }
-			$cas  = $this->request->param('cas/s');
-            if ($cas) {
-                $where[] = ['b.cas', '=', "{$cas}"];
-            }
+
 			$supplier  = $this->request->param('supplier/s');
             if ($supplier) {
                 $where[] = ['supplier', '=', "{$supplier}"];
@@ -63,14 +52,9 @@ class Purchase extends Admin
                 $where[] = ['b.catalog', '=', "{$catalog}"];
             }
 	
-            $data['data'] = DeliveryModel::alias('a')
-					->join('hisi_system_product b ','b.catalog = a.catalog','left')
-					->field('a.*,b.name,b.ename,b.struture,b.cas,b.mdl,b.purity,b.mf,b.mw,b.nmr,b.nmrsolvent')
-					->where($where)->page($page)->limit($limit)->select();
+            $data['data'] = PurchaseModel::where($where)->page($page)->limit($limit)->select();
 
-            $data['count'] = DeliveryModel::alias('a')
-					->join('hisi_system_product b ','b.catalog = a.catalog','left')
-					->where($where)->count('a.id');
+            $data['count'] = PurchaseModel::where($where)->count('id');
             $data['code'] = 0;
             $data['msg'] = '';
             return json($data);
@@ -93,7 +77,6 @@ class Purchase extends Admin
     public function add()
     {
         if ($this->request->isPost()) {
-
             $data = $this->request->post();
            
 			$where=[];
@@ -102,9 +85,16 @@ class Purchase extends Admin
 			if(!$result) {
                 return $this->error("货号不存在，请重新输入");
             }
-			
-            if (!DeliveryModel::create($data)) {
-                return $this->error('添加失败');
+            try {
+                $lastId = PurchaseModel::order('id desc')->value('id');
+
+                $data['purchase_no'] = $this->generateOrderNo($lastId +1);
+
+                if (!PurchaseModel::create($data)) {
+                    return $this->error('添加失败');
+                }
+            } catch (\Exception $e) {
+                dump($e->getMessage());
             }
 
             return $this->success('保存成功', url('index'));
@@ -123,24 +113,23 @@ class Purchase extends Admin
      */
     public function edit($id = 0)
     {
-        
         if ($this->request->isPost()) {
             $data = $this->request->post();  
             $where[] = ['catalog', '=', "{$data['catalog']}"];
-            $result = ProductModel::where($where)->find();
+            $result = PurchaseModel::where($where)->find();
 			//echo ProductModel::getLastSql();exit;
 			if(!$result) {
                 return $this->error("货号不存在，请重新输入");
             }
 
-            if (!DeliveryModel::update($data)) {
+            if (!PurchaseModel::update($data)) {
                 return $this->error('修改失败');
             }
 			$url = url('system/material/index');
             return $this->success('修改成功',$url);
         }
 
-        $row = DeliveryModel::where('id', $id)->find()->toArray();
+        $row = PurchaseModel::where('id', $id)->find()->toArray();
 
         $this->assign('formData', $row);
         return $this->fetch('form');
@@ -156,11 +145,22 @@ class Purchase extends Admin
     public function del()
     {
         $ids   = $this->request->param('id/a');
-        $model = new DeliveryModel();
+        $model = new PurchaseModel();
         if ($model->del($ids)) {
             return $this->success('删除成功');
         }
         return $this->error($model->getError());
     }
 
+    private function generateOrderNo($id)
+    {
+        // 1. 获取当前年月
+        $yearMonth = date('Ym'); // 如：202401
+
+        // 2. 将ID补0到10位
+        $paddedId = str_pad($id, 10, '0', STR_PAD_LEFT);
+
+        // 3. 组合并返回16位单号
+        return $yearMonth . $paddedId;
+    }
 }

@@ -1765,32 +1765,37 @@ CREATE TABLE hisi_system_inquiry_order
 
 CREATE TABLE hisi_system_purchase_order
 (
-    id                   INT AUTO_INCREMENT PRIMARY KEY COMMENT '采购单ID',
-    purchase_no          VARCHAR(50)    NOT NULL COMMENT '采购单号（自动生成）',
-    inquiry_no           VARCHAR(50)    NOT NULL COMMENT '询价单号',
-    catalog              VARCHAR(100)   NOT NULL,
-    cas                  VARCHAR(64)    NOT NULL,
-    quantity             DECIMAL(12, 4) NOT NULL COMMENT '数量',
-    unit                 VARCHAR(20) COMMENT '单位（冗余存储，方便查询）',
-    price_excluding_tax  DECIMAL(12, 4) COMMENT '不含税价',
-    total_price          DECIMAL(12, 4) COMMENT '总价',
-    invoice_type         VARCHAR(50) COMMENT '发票类型',
-    tax_rate             DECIMAL(5, 2) COMMENT '税率（百分比）',
-    `supplier_id`        INT (10) DEFAULT 0 COMMENT '供应商ID',
-    supplier             VARCHAR(50)    NOT NULL COMMENT '供应商',
-    tracking_no          VARCHAR(100) COMMENT '运单号',
-    tracking_info        TEXT COMMENT '运单路由信息（接口生成）',
-    need_spectrum        TINYINT DEFAULT 0 COMMENT '是否提供谱图',
-    purchase_person      VARCHAR(50) COMMENT '采购员',
-    purchase_date        DATE COMMENT '采购日期',
-    delivery_date        DATE COMMENT '要求交货日期',
-    actual_delivery_date DATE COMMENT '实际交货日期',
-    remark               TEXT COMMENT '备注',
-    ctime                INT UNSIGNED DEFAULT 0 NOT NULL COMMENT '创建时间',
-    mtime                INT UNSIGNED DEFAULT 0 NOT NULL COMMENT '修改时间',
-    UNIQUE KEY uk_purchase_no (purchase_no),
-    INDEX catalog (catalog)
-) ENGINE = InnoDB COMMENT ='采购单表';
+    id                   INT AUTO_INCREMENT COMMENT '采购单ID'
+        PRIMARY KEY,
+    purchase_no          VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '采购单号（自动生成）',
+    inquiry_no           VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '询价单号',
+    catalog              VARCHAR(100)   NOT NULL DEFAULT '',
+    cas                  VARCHAR(64)    NOT NULL DEFAULT '',
+    quantity             DECIMAL(12, 4) NOT NULL DEFAULT 0 COMMENT '数量',
+    unit                 VARCHAR(20)    NOT NULL DEFAULT '' COMMENT '单位（冗余存储，方便查询）',
+    price_excluding_tax  DECIMAL(12, 4) NOT NULL DEFAULT 0 COMMENT '不含税价',
+    total_price          DECIMAL(12, 4) NOT NULL DEFAULT 0 COMMENT '总价',
+    invoice_type         INT(10)        NOT NULL DEFAULT 0 COMMENT '发票类型',
+    tax_rate             DECIMAL(5, 2)  NOT NULL DEFAULT 0 COMMENT '税率（百分比）',
+    supplier_id          INT(10)        NOT NULL DEFAULT 0 COMMENT '供应商ID',
+    supplier             VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '供应商',
+    tracking_no          VARCHAR(100)   NOT NULL DEFAULT '' COMMENT '运单号',
+    tracking_info        VARCHAR(500)   NOT NULL DEFAULT '' COMMENT '运单路由信息（接口生成）',
+    need_spectrum        TINYINT        NOT NULL DEFAULT 0 COMMENT '是否提供谱图',
+    purchase_person      VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '采购员',
+    purchase_date        VARCHAR(32)            NOT NULL DEFAULT '' COMMENT '采购日期',
+    delivery_date        VARCHAR(32)            NOT NULL DEFAULT '' COMMENT '要求交货日期',
+    actual_delivery_date VARCHAR(32)            NOT NULL DEFAULT '' COMMENT '实际交货日期',
+    remark               VARCHAR(500)   NOT NULL DEFAULT '' COMMENT '备注',
+    ctime                INT UNSIGNED   NOT NULL DEFAULT 0 NOT NULL COMMENT '创建时间',
+    mtime                INT UNSIGNED   NOT NULL DEFAULT 0 NOT NULL COMMENT '修改时间',
+    CONSTRAINT uk_purchase_no
+        UNIQUE (purchase_no)
+)
+    COMMENT '采购单表';
+
+CREATE INDEX catalog
+    ON hisi_system_purchase_order (catalog);
 
 CREATE TABLE hisi_system_complaint
 (

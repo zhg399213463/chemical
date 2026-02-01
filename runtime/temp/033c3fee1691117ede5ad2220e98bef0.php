@@ -1,4 +1,4 @@
-<?php /*a:6:{s:56:"/www/chemical/application/system/view/purchase/form.html";i:1769260682;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
+<?php /*a:6:{s:56:"/www/chemical/application/system/view/purchase/form.html";i:1769954577;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
 <?php if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 <!DOCTYPE html>
 <html>
@@ -174,7 +174,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                 </ul-->
                 <div class="layui-tab-content page-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <form class="layui-form" action="<?php echo url(); ?>" method="post" id="editForm">
+                        <form class="layui-form" action="<?php echo url(); ?>" method="post"  lay-filter="editForm">
  
     <div class="layui-form-item">
 		<label class="layui-form-label">货号</label>
@@ -183,27 +183,17 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         </div>
 		<label class="layui-form-label">CAS号</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+            <input type="text" class="layui-input field-cas" name="cas" lay-verify="" autocomplete="off" placeholder="请输入CAS号">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商名称</label>
+        <label class="layui-form-label">询价单号</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+            <input type="text" class="layui-input field-inquiry_no" name="inquiry_no" lay-verify="" autocomplete="off" placeholder="请输入询价单号">
         </div>
-        <label class="layui-form-label">采购单号</label>
+        <label class="layui-form-label">数量</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-po_num" name="po_num" lay-verify="" autocomplete="off" placeholder="请输入采购单号">
-        </div>
-    </div>
-    <div class="layui-form-item">
-		<label class="layui-form-label">采购数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-purchase_num" name="purchase_num" lay-verify="" autocomplete="off" placeholder="请输入采购数量">
-        </div>
-		<label class="layui-form-label">到货数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_num" name="delivered_num" lay-verify="" autocomplete="off" placeholder="请输入到货数量">
+            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
         </div>
         <label class="layui-form-label">单位</label>
         <div class="layui-input-inline">
@@ -211,24 +201,65 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">外观</label>
+        <label class="layui-form-label">不含税价格</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-physical_trait" name="physical_trait" lay-verify="" autocomplete="off" placeholder="请输入外观">
+            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
         </div>
-		<label class="layui-form-label">到货日前</label>
+        <label class="layui-form-label">总价格</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_date" name="delivered_date" lay-verify="" autocomplete="off" placeholder="请输入到货日前">
+            <input type="text" class="layui-input field-total_price" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
         </div>
-        <label class="layui-form-label">是否送检</label>
+        <label class="layui-form-label">税率</label>
         <div class="layui-input-inline">
-            <input type="radio" class="field-is_analysis" name="is_analysis" value="1" title="是" checked>
-            <input type="radio" class="field-is_analysis" name="is_analysis" value="0" title="否">
+            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商评价</label>
+        <label class="layui-form-label">供应商名称</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier_evaluation" name="supplier_evaluation" lay-verify="" autocomplete="off" placeholder="请输入供应商评价">
+            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+        </div>
+        <label class="layui-form-label">发票类型</label>
+        <div class="layui-input-inline">
+            <select name="invoice_type" lay-verify="">
+                <option value="1" selected>普通发票</option>
+                <option value="2">专用发票</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">运单号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tracking_no" name="tracking_no" lay-verify="" autocomplete="off" placeholder="请输入运单号">
+        </div>
+		<label class="layui-form-label">运单信息</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tracking_info" name="tracking_info" lay-verify="" autocomplete="off" placeholder="请输入运单信息">
+        </div>
+        <label class="layui-form-label">是否提供谱图</label>
+        <div class="layui-input-inline">
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购员</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_person" name="purchase_person" lay-verify="" autocomplete="off" placeholder="请输入采购员">
+        </div>
+        <label class="layui-form-label">采购日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_date" name="purchase_date" lay-verify="" autocomplete="off" placeholder="采购日前">
+        </div>
+        <label class="layui-form-label">要求到货日期</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-delivery_date" name="delivery_date" lay-verify="" autocomplete="off" placeholder="请输入要求到货日前">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">实际到货日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-actual_delivery_date" name="actual_delivery_date" lay-verify="" autocomplete="off" placeholder="请输入实际到货日前">
         </div>
         <label class="layui-form-label">备注</label>
         <div class="layui-input-inline">
@@ -260,6 +291,11 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
+        form.val('editForm', {
+            "invoice_type": formData.invoice_type,
+        });
+        // 必须重新渲染
+        form.render('select');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{
@@ -269,6 +305,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 		});
 	}
     </script>
+
                     </div>
                 </div>
             </div>
@@ -288,7 +325,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                     <?php endforeach; endif; else: echo "" ;endif; ?>
                 </ul>
                 <div class="layui-tab-content page-tab-content">
-                    <form class="layui-form" action="<?php echo url(); ?>" method="post" id="editForm">
+                    <form class="layui-form" action="<?php echo url(); ?>" method="post"  lay-filter="editForm">
  
     <div class="layui-form-item">
 		<label class="layui-form-label">货号</label>
@@ -297,27 +334,17 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         </div>
 		<label class="layui-form-label">CAS号</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+            <input type="text" class="layui-input field-cas" name="cas" lay-verify="" autocomplete="off" placeholder="请输入CAS号">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商名称</label>
+        <label class="layui-form-label">询价单号</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+            <input type="text" class="layui-input field-inquiry_no" name="inquiry_no" lay-verify="" autocomplete="off" placeholder="请输入询价单号">
         </div>
-        <label class="layui-form-label">采购单号</label>
+        <label class="layui-form-label">数量</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-po_num" name="po_num" lay-verify="" autocomplete="off" placeholder="请输入采购单号">
-        </div>
-    </div>
-    <div class="layui-form-item">
-		<label class="layui-form-label">采购数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-purchase_num" name="purchase_num" lay-verify="" autocomplete="off" placeholder="请输入采购数量">
-        </div>
-		<label class="layui-form-label">到货数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_num" name="delivered_num" lay-verify="" autocomplete="off" placeholder="请输入到货数量">
+            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
         </div>
         <label class="layui-form-label">单位</label>
         <div class="layui-input-inline">
@@ -325,24 +352,65 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">外观</label>
+        <label class="layui-form-label">不含税价格</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-physical_trait" name="physical_trait" lay-verify="" autocomplete="off" placeholder="请输入外观">
+            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
         </div>
-		<label class="layui-form-label">到货日前</label>
+        <label class="layui-form-label">总价格</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_date" name="delivered_date" lay-verify="" autocomplete="off" placeholder="请输入到货日前">
+            <input type="text" class="layui-input field-total_price" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
         </div>
-        <label class="layui-form-label">是否送检</label>
+        <label class="layui-form-label">税率</label>
         <div class="layui-input-inline">
-            <input type="radio" class="field-is_analysis" name="is_analysis" value="1" title="是" checked>
-            <input type="radio" class="field-is_analysis" name="is_analysis" value="0" title="否">
+            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商评价</label>
+        <label class="layui-form-label">供应商名称</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier_evaluation" name="supplier_evaluation" lay-verify="" autocomplete="off" placeholder="请输入供应商评价">
+            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+        </div>
+        <label class="layui-form-label">发票类型</label>
+        <div class="layui-input-inline">
+            <select name="invoice_type" lay-verify="">
+                <option value="1" selected>普通发票</option>
+                <option value="2">专用发票</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">运单号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tracking_no" name="tracking_no" lay-verify="" autocomplete="off" placeholder="请输入运单号">
+        </div>
+		<label class="layui-form-label">运单信息</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tracking_info" name="tracking_info" lay-verify="" autocomplete="off" placeholder="请输入运单信息">
+        </div>
+        <label class="layui-form-label">是否提供谱图</label>
+        <div class="layui-input-inline">
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购员</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_person" name="purchase_person" lay-verify="" autocomplete="off" placeholder="请输入采购员">
+        </div>
+        <label class="layui-form-label">采购日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_date" name="purchase_date" lay-verify="" autocomplete="off" placeholder="采购日前">
+        </div>
+        <label class="layui-form-label">要求到货日期</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-delivery_date" name="delivery_date" lay-verify="" autocomplete="off" placeholder="请输入要求到货日前">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">实际到货日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-actual_delivery_date" name="actual_delivery_date" lay-verify="" autocomplete="off" placeholder="请输入实际到货日前">
         </div>
         <label class="layui-form-label">备注</label>
         <div class="layui-input-inline">
@@ -374,6 +442,11 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
+        form.val('editForm', {
+            "invoice_type": formData.invoice_type,
+        });
+        // 必须重新渲染
+        form.render('select');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{
@@ -383,6 +456,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 		});
 	}
     </script>
+
                 </div>
             </div>
         </div>
@@ -409,7 +483,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                 </ul>
                 <div class="layui-tab-content page-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <form class="layui-form" action="<?php echo url(); ?>" method="post" id="editForm">
+                        <form class="layui-form" action="<?php echo url(); ?>" method="post"  lay-filter="editForm">
  
     <div class="layui-form-item">
 		<label class="layui-form-label">货号</label>
@@ -418,27 +492,17 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         </div>
 		<label class="layui-form-label">CAS号</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+            <input type="text" class="layui-input field-cas" name="cas" lay-verify="" autocomplete="off" placeholder="请输入CAS号">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商名称</label>
+        <label class="layui-form-label">询价单号</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+            <input type="text" class="layui-input field-inquiry_no" name="inquiry_no" lay-verify="" autocomplete="off" placeholder="请输入询价单号">
         </div>
-        <label class="layui-form-label">采购单号</label>
+        <label class="layui-form-label">数量</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-po_num" name="po_num" lay-verify="" autocomplete="off" placeholder="请输入采购单号">
-        </div>
-    </div>
-    <div class="layui-form-item">
-		<label class="layui-form-label">采购数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-purchase_num" name="purchase_num" lay-verify="" autocomplete="off" placeholder="请输入采购数量">
-        </div>
-		<label class="layui-form-label">到货数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_num" name="delivered_num" lay-verify="" autocomplete="off" placeholder="请输入到货数量">
+            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
         </div>
         <label class="layui-form-label">单位</label>
         <div class="layui-input-inline">
@@ -446,24 +510,65 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">外观</label>
+        <label class="layui-form-label">不含税价格</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-physical_trait" name="physical_trait" lay-verify="" autocomplete="off" placeholder="请输入外观">
+            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
         </div>
-		<label class="layui-form-label">到货日前</label>
+        <label class="layui-form-label">总价格</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_date" name="delivered_date" lay-verify="" autocomplete="off" placeholder="请输入到货日前">
+            <input type="text" class="layui-input field-total_price" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
         </div>
-        <label class="layui-form-label">是否送检</label>
+        <label class="layui-form-label">税率</label>
         <div class="layui-input-inline">
-            <input type="radio" class="field-is_analysis" name="is_analysis" value="1" title="是" checked>
-            <input type="radio" class="field-is_analysis" name="is_analysis" value="0" title="否">
+            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商评价</label>
+        <label class="layui-form-label">供应商名称</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier_evaluation" name="supplier_evaluation" lay-verify="" autocomplete="off" placeholder="请输入供应商评价">
+            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+        </div>
+        <label class="layui-form-label">发票类型</label>
+        <div class="layui-input-inline">
+            <select name="invoice_type" lay-verify="">
+                <option value="1" selected>普通发票</option>
+                <option value="2">专用发票</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">运单号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tracking_no" name="tracking_no" lay-verify="" autocomplete="off" placeholder="请输入运单号">
+        </div>
+		<label class="layui-form-label">运单信息</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tracking_info" name="tracking_info" lay-verify="" autocomplete="off" placeholder="请输入运单信息">
+        </div>
+        <label class="layui-form-label">是否提供谱图</label>
+        <div class="layui-input-inline">
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购员</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_person" name="purchase_person" lay-verify="" autocomplete="off" placeholder="请输入采购员">
+        </div>
+        <label class="layui-form-label">采购日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_date" name="purchase_date" lay-verify="" autocomplete="off" placeholder="采购日前">
+        </div>
+        <label class="layui-form-label">要求到货日期</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-delivery_date" name="delivery_date" lay-verify="" autocomplete="off" placeholder="请输入要求到货日前">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">实际到货日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-actual_delivery_date" name="actual_delivery_date" lay-verify="" autocomplete="off" placeholder="请输入实际到货日前">
         </div>
         <label class="layui-form-label">备注</label>
         <div class="layui-input-inline">
@@ -495,6 +600,11 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
+        form.val('editForm', {
+            "invoice_type": formData.invoice_type,
+        });
+        // 必须重新渲染
+        form.render('select');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{
@@ -504,6 +614,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 		});
 	}
     </script>
+
                     </div>
                 </div>
             </div>
@@ -511,7 +622,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     <?php break; default: ?>
         
         <div class="page-tab-content">
-            <form class="layui-form" action="<?php echo url(); ?>" method="post" id="editForm">
+            <form class="layui-form" action="<?php echo url(); ?>" method="post"  lay-filter="editForm">
  
     <div class="layui-form-item">
 		<label class="layui-form-label">货号</label>
@@ -520,27 +631,17 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         </div>
 		<label class="layui-form-label">CAS号</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+            <input type="text" class="layui-input field-cas" name="cas" lay-verify="" autocomplete="off" placeholder="请输入CAS号">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商名称</label>
+        <label class="layui-form-label">询价单号</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+            <input type="text" class="layui-input field-inquiry_no" name="inquiry_no" lay-verify="" autocomplete="off" placeholder="请输入询价单号">
         </div>
-        <label class="layui-form-label">采购单号</label>
+        <label class="layui-form-label">数量</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-po_num" name="po_num" lay-verify="" autocomplete="off" placeholder="请输入采购单号">
-        </div>
-    </div>
-    <div class="layui-form-item">
-		<label class="layui-form-label">采购数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-purchase_num" name="purchase_num" lay-verify="" autocomplete="off" placeholder="请输入采购数量">
-        </div>
-		<label class="layui-form-label">到货数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_num" name="delivered_num" lay-verify="" autocomplete="off" placeholder="请输入到货数量">
+            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
         </div>
         <label class="layui-form-label">单位</label>
         <div class="layui-input-inline">
@@ -548,24 +649,65 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">外观</label>
+        <label class="layui-form-label">不含税价格</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-physical_trait" name="physical_trait" lay-verify="" autocomplete="off" placeholder="请输入外观">
+            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
         </div>
-		<label class="layui-form-label">到货日前</label>
+        <label class="layui-form-label">总价格</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_date" name="delivered_date" lay-verify="" autocomplete="off" placeholder="请输入到货日前">
+            <input type="text" class="layui-input field-total_price" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
         </div>
-        <label class="layui-form-label">是否送检</label>
+        <label class="layui-form-label">税率</label>
         <div class="layui-input-inline">
-            <input type="radio" class="field-is_analysis" name="is_analysis" value="1" title="是" checked>
-            <input type="radio" class="field-is_analysis" name="is_analysis" value="0" title="否">
+            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商评价</label>
+        <label class="layui-form-label">供应商名称</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier_evaluation" name="supplier_evaluation" lay-verify="" autocomplete="off" placeholder="请输入供应商评价">
+            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+        </div>
+        <label class="layui-form-label">发票类型</label>
+        <div class="layui-input-inline">
+            <select name="invoice_type" lay-verify="">
+                <option value="1" selected>普通发票</option>
+                <option value="2">专用发票</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">运单号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tracking_no" name="tracking_no" lay-verify="" autocomplete="off" placeholder="请输入运单号">
+        </div>
+		<label class="layui-form-label">运单信息</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-tracking_info" name="tracking_info" lay-verify="" autocomplete="off" placeholder="请输入运单信息">
+        </div>
+        <label class="layui-form-label">是否提供谱图</label>
+        <div class="layui-input-inline">
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
+            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">采购员</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_person" name="purchase_person" lay-verify="" autocomplete="off" placeholder="请输入采购员">
+        </div>
+        <label class="layui-form-label">采购日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-purchase_date" name="purchase_date" lay-verify="" autocomplete="off" placeholder="采购日前">
+        </div>
+        <label class="layui-form-label">要求到货日期</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-delivery_date" name="delivery_date" lay-verify="" autocomplete="off" placeholder="请输入要求到货日前">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">实际到货日前</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input field-actual_delivery_date" name="actual_delivery_date" lay-verify="" autocomplete="off" placeholder="请输入实际到货日前">
         </div>
         <label class="layui-form-label">备注</label>
         <div class="layui-input-inline">
@@ -597,6 +739,11 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
+        form.val('editForm', {
+            "invoice_type": formData.invoice_type,
+        });
+        // 必须重新渲染
+        form.render('select');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{
@@ -606,6 +753,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 		});
 	}
     </script>
+
         </div>
 <?php endswitch; if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 </body>
