@@ -20,7 +20,7 @@ use app\system\model\SystemSupplier as SupplierModel;
 class Supplier extends Admin
 {
     public    $tabData   = [];
-    protected $hisiTable = 'SystemDelivery';
+    protected $hisiTable = 'SystemSupplier';
 
     /**
      * 初始化方法

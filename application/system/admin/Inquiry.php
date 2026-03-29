@@ -21,7 +21,7 @@ use app\system\model\SystemProduct as ProductModel;
 class Inquiry extends Admin
 {
     public    $tabData   = [];
-    protected $hisiTable = 'SystemDelivery';
+    protected $hisiTable = 'SystemInquiry';
 
     /**
      * 初始化方法

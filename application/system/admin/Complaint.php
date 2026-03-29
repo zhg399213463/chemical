@@ -21,7 +21,7 @@ use app\system\model\SystemProduct as ProductModel;
 class Complaint extends Admin
 {
     public $tabData = [];
-    protected $hisiTable = 'SystemDelivery';
+    protected $hisiTable = 'SystemComplaint';
     /**
      * 初始化方法
      */
@@ -107,7 +107,6 @@ class Complaint extends Admin
      */
     public function edit($id = 0)
     {
-        
         if ($this->request->isPost()) {
             $data = $this->request->post();  
             $where[] = ['catalog', '=', "{$data['catalog']}"];
@@ -123,7 +122,7 @@ class Complaint extends Admin
             return $this->success('修改成功',$url);
         }
 
-        $row = DeliveryModel::where('id', $id)->find()->toArray();
+        $row = ComplaintModel::where('id', $id)->find()->toArray();
 
         $this->assign('formData', $row);
         return $this->fetch('form');

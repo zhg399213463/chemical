@@ -21,7 +21,7 @@ use app\system\model\SystemProduct as ProductModel;
 class Purchase extends Admin
 {
     public $tabData = [];
-    protected $hisiTable = 'SystemDelivery';
+    protected $hisiTable = 'SystemPurchase';
     /**
      * 初始化方法
      */
