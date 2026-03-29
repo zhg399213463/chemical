@@ -1744,24 +1744,37 @@ CREATE TABLE `hisi_system_delivery`
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT ='[系统] 到货登记';
 CREATE TABLE hisi_system_inquiry_order
 (
-    id                  INT AUTO_INCREMENT PRIMARY KEY COMMENT '询价单ID',
-    inquiry_no          VARCHAR(50)    NOT NULL COMMENT '询价单号（自动生成）',
-    catalog             VARCHAR(100)   NOT NULL,
-    cas                 VARCHAR(64)    NOT NULL,
-    quantity            DECIMAL(12, 4) NOT NULL COMMENT '数量',
-    price_excluding_tax DECIMAL(12, 4) COMMENT '不含税价',
-    total_price         DECIMAL(12, 4) COMMENT '总价',
-    invoice_type        VARCHAR(50) COMMENT '发票类型',
-    tax_rate            DECIMAL(5, 2) COMMENT '税率（百分比，如13.00表示13%）',
-    `supplier_id`       INT (10) DEFAULT 0 COMMENT '供应商ID',
-    supplier            VARCHAR(50)    NOT NULL COMMENT '供应商',
-    need_spectrum       TINYINT DEFAULT 0 COMMENT '是否提供谱图：0-否，1-是',
-    remark              TEXT COMMENT '备注',
-    ctime               INT UNSIGNED DEFAULT 0 NOT NULL COMMENT '创建时间',
-    mtime               INT UNSIGNED DEFAULT 0 NOT NULL COMMENT '修改时间',
+    id           INT AUTO_INCREMENT PRIMARY KEY COMMENT '询价单ID',
+    inquiry_no   VARCHAR(50)  NOT NULL COMMENT '询价单号（自动生成）',
+    catalog      VARCHAR(100) NOT NULL COMMENT '货号',
+    cas          VARCHAR(64)  NOT NULL COMMENT 'CAS号',
+    product_name VARCHAR(255) NOT NULL DEFAULT '' COMMENT '商品名称(冗余自产品表)',
+    ctime        INT UNSIGNED DEFAULT 0 NOT NULL COMMENT '创建时间',
+    mtime        INT UNSIGNED DEFAULT 0 NOT NULL COMMENT '修改时间',
     UNIQUE KEY uk_inquiry_no (inquiry_no),
     INDEX catalog (catalog)
-) ENGINE = InnoDB COMMENT ='询价单表';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT ='询价单主表';
+
+
+
+CREATE TABLE hisi_system_inquiry_order_item
+(
+    id                  INT AUTO_INCREMENT PRIMARY KEY COMMENT '询价报价行ID',
+    inquiry_order_id    INT UNSIGNED NOT NULL COMMENT '询价单ID',
+    sort_order          TINYINT UNSIGNED NOT NULL DEFAULT 1 COMMENT '排序1-10',
+    supplier_id         INT(10) NOT NULL DEFAULT 0 COMMENT '供应商ID',
+    supplier            VARCHAR(255) NOT NULL DEFAULT '' COMMENT '供应商名称',
+    quantity            DECIMAL(12, 4) NOT NULL DEFAULT 0 COMMENT '数量',
+    price_excluding_tax DECIMAL(12, 4) DEFAULT NULL COMMENT '不含税价',
+    total_price         DECIMAL(12, 4) DEFAULT NULL COMMENT '总价',
+    invoice_type        VARCHAR(50) DEFAULT NULL COMMENT '发票类型',
+    tax_rate            DECIMAL(5, 2) DEFAULT NULL COMMENT '税率（百分比）',
+    need_spectrum       TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否提供谱图：0-否，1-是',
+    remark              TEXT COMMENT '备注',
+    ctime               INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
+    mtime               INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '修改时间',
+    INDEX idx_inquiry_order_id (inquiry_order_id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT ='询价单供应商报价明细';
 
 CREATE TABLE hisi_system_purchase_order
 (

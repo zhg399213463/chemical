@@ -1,4 +1,4 @@
-<?php /*a:6:{s:55:"/www/chemical/application/system/view/inquiry/form.html";i:1769435579;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
+<?php /*a:6:{s:55:"/www/chemical/application/system/view/inquiry/form.html";i:1774758333;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
 <?php if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 <!DOCTYPE html>
 <html>
@@ -175,75 +175,107 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                 <div class="layui-tab-content page-tab-content">
                     <div class="layui-tab-item layui-show">
                         <form class="layui-form" action="<?php echo url(); ?>" method="post" id="editForm" lay-filter="editForm">
- 
+
     <div class="layui-form-item">
-		<label class="layui-form-label">货号</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号">
+        <label class="layui-form-label">货号</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input type="text" class="layui-input js-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号" id="field-catalog">
         </div>
-		<label class="layui-form-label">CAS号</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+        <div class="layui-input-inline<?php if(!empty($isEdit)): ?> layui-hide<?php endif; ?>" style="width:auto;">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm js-lookup-product" id="btnLookupProduct">按货号查品名</button>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商名称</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+        <label class="layui-form-label">CAS号</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input type="text" class="layui-input js-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号" id="field-cas">
         </div>
-        <label class="layui-form-label">数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline" style="width:280px;">
+            <input type="text" class="layui-input js-product-name" name="product_name" readonly autocomplete="off" placeholder="根据货号自动带出" id="field-product_name">
         </div>
     </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top:16px;">
+        <legend>供应商报价（最多10家）</legend>
+    </fieldset>
+    <div id="supplierRows"></div>
     <div class="layui-form-item">
-		<label class="layui-form-label">不含税价格</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
-        </div>
-		<label class="layui-form-label">总价格</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_num" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
-        </div>
-        <label class="layui-form-label">税率</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-primary" id="btnAddSupplier"><i class="layui-icon">&#xe654;</i> 添加供应商</button>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">发票类型</label>
-        <div class="layui-input-inline">
-            <select name="invoice_type" lay-verify="">
-                <option value="1" selected>普通发票</option>
-                <option value="2">专用发票</option>
-            </select>
-        </div>
-        <label class="layui-form-label">是否提供谱图</label>
-        <div class="layui-input-inline">
-            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
-            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-remark" name="remark" lay-verify="" autocomplete="off" placeholder="备注">
-        </div>
-    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <?php echo token(); ?>
-            <input type="hidden" class="field-id" name="id">
-            <input type="hidden" class="field-inquiry_no" name="inquiry_no">
+            <input type="hidden" class="field-id" name="id" id="field-id">
+            <input type="hidden" class="field-inquiry_no" name="inquiry_no" id="field-inquiry_no">
         </div>
     </div>
     <div class="pop-bottom-bar">
         <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit" hisi-data="{pop: true, refresh: true}">提交保存</button>
         <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
     </div>
-    </form>
+</form>
 
-    <script src="/static/js/layui/layui.js?v=<?php echo config('hisiphp.version'); ?>"></script>
+<script type="text/html" id="tplSupplierRow">
+    <div class="layui-card supplier-row" style="margin-bottom:12px;">
+        <div class="layui-card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>供应商报价 <span class="row-label"></span></span>
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-remove-row">删除</button>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商</label>
+                <div class="layui-input-inline" style="width:200px;">
+                    <input type="text" class="layui-input item-supplier" lay-verify="required" autocomplete="off" placeholder="供应商名称">
+                </div>
+                <label class="layui-form-label">数量</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-quantity" autocomplete="off" placeholder="数量">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">不含税价</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-price_excluding_tax" autocomplete="off" placeholder="不含税价">
+                </div>
+                <label class="layui-form-label">总价</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-total_price" autocomplete="off" placeholder="总价">
+                </div>
+                <label class="layui-form-label">税率</label>
+                <div class="layui-input-inline" style="width:100px;">
+                    <input type="text" class="layui-input item-tax_rate" autocomplete="off" placeholder="税率%">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">发票类型</label>
+                <div class="layui-input-inline" style="width:160px;">
+                    <select class="item-invoice_type">
+                        <option value="1">普通发票</option>
+                        <option value="2">专用发票</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">谱图</label>
+                <div class="layui-input-inline" style="width:200px;">
+                    <input type="radio" class="item-need_spectrum" name="need_spectrum_placeholder" value="1" title="是" checked>
+                    <input type="radio" class="item-need_spectrum" name="need_spectrum_placeholder" value="0" title="否">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline" style="width:400px;">
+                    <input type="text" class="layui-input item-remark" autocomplete="off" placeholder="备注">
+                </div>
+            </div>
+            <input type="hidden" class="item-supplier_id" value="0">
+        </div>
+    </div>
+</script>
+
+<script src="/static/js/layui/layui.js?v=<?php echo config('hisiphp.version'); ?>"></script>
 <script src="/static/js/jquery.2.1.4.min.js?v=<?php echo config('hisiphp.version'); ?>"></script>
 <script>
     var ADMIN_PATH = "<?php echo htmlentities($_SERVER['SCRIPT_NAME']); ?>", LAYUI_OFFSET = 60;
@@ -252,26 +284,141 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         version: '<?php echo config("hisiphp.version"); ?>'
     }).use('global');
 </script>
-    <script>
-    var formData = <?php echo json_encode($formData); ?>;
-    layui.use(['form', 'func','upload'], function() {
-        var $ = layui.jquery, form = layui.form, upload = layui.upload;
-        layui.func.assign(formData);
+<script>
+var formData = <?php echo json_encode(isset($formData) ? $formData : []); ?>;
+var itemsJson = <?php echo json_encode(isset($itemsJson) ? $itemsJson : [], JSON_UNESCAPED_UNICODE); ?>;
+var isEdit = <?php echo json_encode(!empty($isEdit)); ?>;
+var lookupUrl = "<?php echo url('add'); ?>";
 
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
+layui.use(['form', 'func', 'upload', 'jquery'], function() {
+    var $ = layui.jquery, form = layui.form;
+    var maxSuppliers = 10;
+    var tplHtml = $('#tplSupplierRow').html();
+
+    function rowCount() {
+        return $('#supplierRows .supplier-row').length;
+    }
+
+    function updateAddButtonState() {
+        $('#btnAddSupplier').prop('disabled', rowCount() >= maxSuppliers);
+    }
+
+    function reindexRowNames() {
+        $('#supplierRows .supplier-row').each(function(i) {
+            var $row = $(this);
+            $row.find('.row-label').text('#' + (i + 1));
+            $row.find('.item-supplier').attr('name', 'items[' + i + '][supplier]');
+            $row.find('.item-quantity').attr('name', 'items[' + i + '][quantity]');
+            $row.find('.item-price_excluding_tax').attr('name', 'items[' + i + '][price_excluding_tax]');
+            $row.find('.item-total_price').attr('name', 'items[' + i + '][total_price]');
+            $row.find('.item-tax_rate').attr('name', 'items[' + i + '][tax_rate]');
+            $row.find('.item-invoice_type').attr('name', 'items[' + i + '][invoice_type]');
+            $row.find('.item-remark').attr('name', 'items[' + i + '][remark]');
+            $row.find('.item-supplier_id').attr('name', 'items[' + i + '][supplier_id]');
+            $row.find('.item-need_spectrum').attr('name', 'items[' + i + '][need_spectrum]');
         });
-        // 必须重新渲染
         form.render('select');
+        form.render('radio');
+    }
+
+    function addRow(data) {
+        if (rowCount() >= maxSuppliers) {
+            layer.msg('最多添加10个供应商', {icon: 0});
+            return;
+        }
+        var $node = $(tplHtml);
+        $('#supplierRows').append($node);
+        if (data) {
+            $node.find('.item-supplier').val(data.supplier || '');
+            $node.find('.item-quantity').val(data.quantity != null ? data.quantity : '');
+            $node.find('.item-price_excluding_tax').val(data.price_excluding_tax != null ? data.price_excluding_tax : '');
+            $node.find('.item-total_price').val(data.total_price != null ? data.total_price : '');
+            $node.find('.item-tax_rate').val(data.tax_rate != null ? data.tax_rate : '');
+            $node.find('.item-invoice_type').val(String(data.invoice_type != null ? data.invoice_type : '1'));
+            $node.find('.item-remark').val(data.remark || '');
+            $node.find('.item-supplier_id').val(data.supplier_id != null ? data.supplier_id : 0);
+            var ns = String(data.need_spectrum == null ? 1 : data.need_spectrum);
+            $node.find('.item-need_spectrum[value="' + ns + '"]').prop('checked', true);
+        }
+        reindexRowNames();
+        updateAddButtonState();
+    }
+
+    $('#btnAddSupplier').on('click', function() {
+        addRow(null);
     });
-	function ShowLayerMessage(msgStr,msgIndex)
-	{
-		layui.use(['layer'], function(){
-			var layer = layui.layer;
-			layer.msg(msgStr, {icon: msgIndex});
-		});
-	}
-    </script>
+
+    $('#supplierRows').on('click', '.btn-remove-row', function() {
+        if (rowCount() <= 1) {
+            layer.msg('至少保留一行供应商报价', {icon: 0});
+            return;
+        }
+        $(this).closest('.supplier-row').remove();
+        reindexRowNames();
+        updateAddButtonState();
+    });
+
+    function runLookup() {
+        var catalog = $.trim($('#field-catalog').val());
+        if (!catalog) {
+            layer.msg('请先输入货号', {icon: 0});
+            return;
+        }
+        $.ajax({
+            url: lookupUrl,
+            data: {lookup_catalog: catalog},
+            dataType: 'json',
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        }).done(function(res) {
+            if (res.code !== 0) {
+                layer.msg(res.msg || '查询失败', {icon: 2});
+                return;
+            }
+            var d = res.data || {};
+            $('#field-product_name').val(d.name || '');
+            if (!isEdit && d.cas) {
+                $('#field-cas').val(d.cas);
+            }
+        }).fail(function() {
+            layer.msg('请求失败', {icon: 2});
+        });
+    }
+
+    $('#btnLookupProduct').on('click', runLookup);
+    $('#field-catalog').on('blur', function() {
+        if (!isEdit) {
+            runLookup();
+        }
+    });
+
+    if (isEdit) {
+        $('#field-catalog').prop('readonly', true);
+        $('#field-cas').prop('readonly', true);
+        $('#field-product_name').prop('readonly', true);
+        layui.func.assign(formData);
+        $('#field-id').val(formData.id || '');
+        $('#field-inquiry_no').val(formData.inquiry_no || '');
+        $('#field-catalog').val(formData.catalog || '');
+        $('#field-cas').val(formData.cas || '');
+        $('#field-product_name').val(formData.product_name || '');
+        var arr = Array.isArray(itemsJson) ? itemsJson : [];
+        if (!arr.length) {
+            addRow(null);
+        } else {
+            for (var j = 0; j < arr.length; j++) {
+                addRow(arr[j]);
+            }
+        }
+    } else {
+        layui.func.assign(formData);
+        addRow(null);
+    }
+
+    form.render('select');
+    form.render('radio');
+});
+</script>
+
                     </div>
                 </div>
             </div>
@@ -292,75 +439,107 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                 </ul>
                 <div class="layui-tab-content page-tab-content">
                     <form class="layui-form" action="<?php echo url(); ?>" method="post" id="editForm" lay-filter="editForm">
- 
+
     <div class="layui-form-item">
-		<label class="layui-form-label">货号</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号">
+        <label class="layui-form-label">货号</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input type="text" class="layui-input js-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号" id="field-catalog">
         </div>
-		<label class="layui-form-label">CAS号</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+        <div class="layui-input-inline<?php if(!empty($isEdit)): ?> layui-hide<?php endif; ?>" style="width:auto;">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm js-lookup-product" id="btnLookupProduct">按货号查品名</button>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商名称</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+        <label class="layui-form-label">CAS号</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input type="text" class="layui-input js-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号" id="field-cas">
         </div>
-        <label class="layui-form-label">数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline" style="width:280px;">
+            <input type="text" class="layui-input js-product-name" name="product_name" readonly autocomplete="off" placeholder="根据货号自动带出" id="field-product_name">
         </div>
     </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top:16px;">
+        <legend>供应商报价（最多10家）</legend>
+    </fieldset>
+    <div id="supplierRows"></div>
     <div class="layui-form-item">
-		<label class="layui-form-label">不含税价格</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
-        </div>
-		<label class="layui-form-label">总价格</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_num" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
-        </div>
-        <label class="layui-form-label">税率</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-primary" id="btnAddSupplier"><i class="layui-icon">&#xe654;</i> 添加供应商</button>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">发票类型</label>
-        <div class="layui-input-inline">
-            <select name="invoice_type" lay-verify="">
-                <option value="1" selected>普通发票</option>
-                <option value="2">专用发票</option>
-            </select>
-        </div>
-        <label class="layui-form-label">是否提供谱图</label>
-        <div class="layui-input-inline">
-            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
-            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-remark" name="remark" lay-verify="" autocomplete="off" placeholder="备注">
-        </div>
-    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <?php echo token(); ?>
-            <input type="hidden" class="field-id" name="id">
-            <input type="hidden" class="field-inquiry_no" name="inquiry_no">
+            <input type="hidden" class="field-id" name="id" id="field-id">
+            <input type="hidden" class="field-inquiry_no" name="inquiry_no" id="field-inquiry_no">
         </div>
     </div>
     <div class="pop-bottom-bar">
         <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit" hisi-data="{pop: true, refresh: true}">提交保存</button>
         <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
     </div>
-    </form>
+</form>
 
-    <script src="/static/js/layui/layui.js?v=<?php echo config('hisiphp.version'); ?>"></script>
+<script type="text/html" id="tplSupplierRow">
+    <div class="layui-card supplier-row" style="margin-bottom:12px;">
+        <div class="layui-card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>供应商报价 <span class="row-label"></span></span>
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-remove-row">删除</button>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商</label>
+                <div class="layui-input-inline" style="width:200px;">
+                    <input type="text" class="layui-input item-supplier" lay-verify="required" autocomplete="off" placeholder="供应商名称">
+                </div>
+                <label class="layui-form-label">数量</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-quantity" autocomplete="off" placeholder="数量">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">不含税价</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-price_excluding_tax" autocomplete="off" placeholder="不含税价">
+                </div>
+                <label class="layui-form-label">总价</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-total_price" autocomplete="off" placeholder="总价">
+                </div>
+                <label class="layui-form-label">税率</label>
+                <div class="layui-input-inline" style="width:100px;">
+                    <input type="text" class="layui-input item-tax_rate" autocomplete="off" placeholder="税率%">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">发票类型</label>
+                <div class="layui-input-inline" style="width:160px;">
+                    <select class="item-invoice_type">
+                        <option value="1">普通发票</option>
+                        <option value="2">专用发票</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">谱图</label>
+                <div class="layui-input-inline" style="width:200px;">
+                    <input type="radio" class="item-need_spectrum" name="need_spectrum_placeholder" value="1" title="是" checked>
+                    <input type="radio" class="item-need_spectrum" name="need_spectrum_placeholder" value="0" title="否">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline" style="width:400px;">
+                    <input type="text" class="layui-input item-remark" autocomplete="off" placeholder="备注">
+                </div>
+            </div>
+            <input type="hidden" class="item-supplier_id" value="0">
+        </div>
+    </div>
+</script>
+
+<script src="/static/js/layui/layui.js?v=<?php echo config('hisiphp.version'); ?>"></script>
 <script src="/static/js/jquery.2.1.4.min.js?v=<?php echo config('hisiphp.version'); ?>"></script>
 <script>
     var ADMIN_PATH = "<?php echo htmlentities($_SERVER['SCRIPT_NAME']); ?>", LAYUI_OFFSET = 60;
@@ -369,26 +548,141 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         version: '<?php echo config("hisiphp.version"); ?>'
     }).use('global');
 </script>
-    <script>
-    var formData = <?php echo json_encode($formData); ?>;
-    layui.use(['form', 'func','upload'], function() {
-        var $ = layui.jquery, form = layui.form, upload = layui.upload;
-        layui.func.assign(formData);
+<script>
+var formData = <?php echo json_encode(isset($formData) ? $formData : []); ?>;
+var itemsJson = <?php echo json_encode(isset($itemsJson) ? $itemsJson : [], JSON_UNESCAPED_UNICODE); ?>;
+var isEdit = <?php echo json_encode(!empty($isEdit)); ?>;
+var lookupUrl = "<?php echo url('add'); ?>";
 
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
+layui.use(['form', 'func', 'upload', 'jquery'], function() {
+    var $ = layui.jquery, form = layui.form;
+    var maxSuppliers = 10;
+    var tplHtml = $('#tplSupplierRow').html();
+
+    function rowCount() {
+        return $('#supplierRows .supplier-row').length;
+    }
+
+    function updateAddButtonState() {
+        $('#btnAddSupplier').prop('disabled', rowCount() >= maxSuppliers);
+    }
+
+    function reindexRowNames() {
+        $('#supplierRows .supplier-row').each(function(i) {
+            var $row = $(this);
+            $row.find('.row-label').text('#' + (i + 1));
+            $row.find('.item-supplier').attr('name', 'items[' + i + '][supplier]');
+            $row.find('.item-quantity').attr('name', 'items[' + i + '][quantity]');
+            $row.find('.item-price_excluding_tax').attr('name', 'items[' + i + '][price_excluding_tax]');
+            $row.find('.item-total_price').attr('name', 'items[' + i + '][total_price]');
+            $row.find('.item-tax_rate').attr('name', 'items[' + i + '][tax_rate]');
+            $row.find('.item-invoice_type').attr('name', 'items[' + i + '][invoice_type]');
+            $row.find('.item-remark').attr('name', 'items[' + i + '][remark]');
+            $row.find('.item-supplier_id').attr('name', 'items[' + i + '][supplier_id]');
+            $row.find('.item-need_spectrum').attr('name', 'items[' + i + '][need_spectrum]');
         });
-        // 必须重新渲染
         form.render('select');
+        form.render('radio');
+    }
+
+    function addRow(data) {
+        if (rowCount() >= maxSuppliers) {
+            layer.msg('最多添加10个供应商', {icon: 0});
+            return;
+        }
+        var $node = $(tplHtml);
+        $('#supplierRows').append($node);
+        if (data) {
+            $node.find('.item-supplier').val(data.supplier || '');
+            $node.find('.item-quantity').val(data.quantity != null ? data.quantity : '');
+            $node.find('.item-price_excluding_tax').val(data.price_excluding_tax != null ? data.price_excluding_tax : '');
+            $node.find('.item-total_price').val(data.total_price != null ? data.total_price : '');
+            $node.find('.item-tax_rate').val(data.tax_rate != null ? data.tax_rate : '');
+            $node.find('.item-invoice_type').val(String(data.invoice_type != null ? data.invoice_type : '1'));
+            $node.find('.item-remark').val(data.remark || '');
+            $node.find('.item-supplier_id').val(data.supplier_id != null ? data.supplier_id : 0);
+            var ns = String(data.need_spectrum == null ? 1 : data.need_spectrum);
+            $node.find('.item-need_spectrum[value="' + ns + '"]').prop('checked', true);
+        }
+        reindexRowNames();
+        updateAddButtonState();
+    }
+
+    $('#btnAddSupplier').on('click', function() {
+        addRow(null);
     });
-	function ShowLayerMessage(msgStr,msgIndex)
-	{
-		layui.use(['layer'], function(){
-			var layer = layui.layer;
-			layer.msg(msgStr, {icon: msgIndex});
-		});
-	}
-    </script>
+
+    $('#supplierRows').on('click', '.btn-remove-row', function() {
+        if (rowCount() <= 1) {
+            layer.msg('至少保留一行供应商报价', {icon: 0});
+            return;
+        }
+        $(this).closest('.supplier-row').remove();
+        reindexRowNames();
+        updateAddButtonState();
+    });
+
+    function runLookup() {
+        var catalog = $.trim($('#field-catalog').val());
+        if (!catalog) {
+            layer.msg('请先输入货号', {icon: 0});
+            return;
+        }
+        $.ajax({
+            url: lookupUrl,
+            data: {lookup_catalog: catalog},
+            dataType: 'json',
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        }).done(function(res) {
+            if (res.code !== 0) {
+                layer.msg(res.msg || '查询失败', {icon: 2});
+                return;
+            }
+            var d = res.data || {};
+            $('#field-product_name').val(d.name || '');
+            if (!isEdit && d.cas) {
+                $('#field-cas').val(d.cas);
+            }
+        }).fail(function() {
+            layer.msg('请求失败', {icon: 2});
+        });
+    }
+
+    $('#btnLookupProduct').on('click', runLookup);
+    $('#field-catalog').on('blur', function() {
+        if (!isEdit) {
+            runLookup();
+        }
+    });
+
+    if (isEdit) {
+        $('#field-catalog').prop('readonly', true);
+        $('#field-cas').prop('readonly', true);
+        $('#field-product_name').prop('readonly', true);
+        layui.func.assign(formData);
+        $('#field-id').val(formData.id || '');
+        $('#field-inquiry_no').val(formData.inquiry_no || '');
+        $('#field-catalog').val(formData.catalog || '');
+        $('#field-cas').val(formData.cas || '');
+        $('#field-product_name').val(formData.product_name || '');
+        var arr = Array.isArray(itemsJson) ? itemsJson : [];
+        if (!arr.length) {
+            addRow(null);
+        } else {
+            for (var j = 0; j < arr.length; j++) {
+                addRow(arr[j]);
+            }
+        }
+    } else {
+        layui.func.assign(formData);
+        addRow(null);
+    }
+
+    form.render('select');
+    form.render('radio');
+});
+</script>
+
                 </div>
             </div>
         </div>
@@ -416,75 +710,107 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                 <div class="layui-tab-content page-tab-content">
                     <div class="layui-tab-item layui-show">
                         <form class="layui-form" action="<?php echo url(); ?>" method="post" id="editForm" lay-filter="editForm">
- 
+
     <div class="layui-form-item">
-		<label class="layui-form-label">货号</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号">
+        <label class="layui-form-label">货号</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input type="text" class="layui-input js-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号" id="field-catalog">
         </div>
-		<label class="layui-form-label">CAS号</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+        <div class="layui-input-inline<?php if(!empty($isEdit)): ?> layui-hide<?php endif; ?>" style="width:auto;">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm js-lookup-product" id="btnLookupProduct">按货号查品名</button>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商名称</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+        <label class="layui-form-label">CAS号</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input type="text" class="layui-input js-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号" id="field-cas">
         </div>
-        <label class="layui-form-label">数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline" style="width:280px;">
+            <input type="text" class="layui-input js-product-name" name="product_name" readonly autocomplete="off" placeholder="根据货号自动带出" id="field-product_name">
         </div>
     </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top:16px;">
+        <legend>供应商报价（最多10家）</legend>
+    </fieldset>
+    <div id="supplierRows"></div>
     <div class="layui-form-item">
-		<label class="layui-form-label">不含税价格</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
-        </div>
-		<label class="layui-form-label">总价格</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_num" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
-        </div>
-        <label class="layui-form-label">税率</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-primary" id="btnAddSupplier"><i class="layui-icon">&#xe654;</i> 添加供应商</button>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">发票类型</label>
-        <div class="layui-input-inline">
-            <select name="invoice_type" lay-verify="">
-                <option value="1" selected>普通发票</option>
-                <option value="2">专用发票</option>
-            </select>
-        </div>
-        <label class="layui-form-label">是否提供谱图</label>
-        <div class="layui-input-inline">
-            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
-            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-remark" name="remark" lay-verify="" autocomplete="off" placeholder="备注">
-        </div>
-    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <?php echo token(); ?>
-            <input type="hidden" class="field-id" name="id">
-            <input type="hidden" class="field-inquiry_no" name="inquiry_no">
+            <input type="hidden" class="field-id" name="id" id="field-id">
+            <input type="hidden" class="field-inquiry_no" name="inquiry_no" id="field-inquiry_no">
         </div>
     </div>
     <div class="pop-bottom-bar">
         <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit" hisi-data="{pop: true, refresh: true}">提交保存</button>
         <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
     </div>
-    </form>
+</form>
 
-    <script src="/static/js/layui/layui.js?v=<?php echo config('hisiphp.version'); ?>"></script>
+<script type="text/html" id="tplSupplierRow">
+    <div class="layui-card supplier-row" style="margin-bottom:12px;">
+        <div class="layui-card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>供应商报价 <span class="row-label"></span></span>
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-remove-row">删除</button>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商</label>
+                <div class="layui-input-inline" style="width:200px;">
+                    <input type="text" class="layui-input item-supplier" lay-verify="required" autocomplete="off" placeholder="供应商名称">
+                </div>
+                <label class="layui-form-label">数量</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-quantity" autocomplete="off" placeholder="数量">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">不含税价</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-price_excluding_tax" autocomplete="off" placeholder="不含税价">
+                </div>
+                <label class="layui-form-label">总价</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-total_price" autocomplete="off" placeholder="总价">
+                </div>
+                <label class="layui-form-label">税率</label>
+                <div class="layui-input-inline" style="width:100px;">
+                    <input type="text" class="layui-input item-tax_rate" autocomplete="off" placeholder="税率%">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">发票类型</label>
+                <div class="layui-input-inline" style="width:160px;">
+                    <select class="item-invoice_type">
+                        <option value="1">普通发票</option>
+                        <option value="2">专用发票</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">谱图</label>
+                <div class="layui-input-inline" style="width:200px;">
+                    <input type="radio" class="item-need_spectrum" name="need_spectrum_placeholder" value="1" title="是" checked>
+                    <input type="radio" class="item-need_spectrum" name="need_spectrum_placeholder" value="0" title="否">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline" style="width:400px;">
+                    <input type="text" class="layui-input item-remark" autocomplete="off" placeholder="备注">
+                </div>
+            </div>
+            <input type="hidden" class="item-supplier_id" value="0">
+        </div>
+    </div>
+</script>
+
+<script src="/static/js/layui/layui.js?v=<?php echo config('hisiphp.version'); ?>"></script>
 <script src="/static/js/jquery.2.1.4.min.js?v=<?php echo config('hisiphp.version'); ?>"></script>
 <script>
     var ADMIN_PATH = "<?php echo htmlentities($_SERVER['SCRIPT_NAME']); ?>", LAYUI_OFFSET = 60;
@@ -493,26 +819,141 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         version: '<?php echo config("hisiphp.version"); ?>'
     }).use('global');
 </script>
-    <script>
-    var formData = <?php echo json_encode($formData); ?>;
-    layui.use(['form', 'func','upload'], function() {
-        var $ = layui.jquery, form = layui.form, upload = layui.upload;
-        layui.func.assign(formData);
+<script>
+var formData = <?php echo json_encode(isset($formData) ? $formData : []); ?>;
+var itemsJson = <?php echo json_encode(isset($itemsJson) ? $itemsJson : [], JSON_UNESCAPED_UNICODE); ?>;
+var isEdit = <?php echo json_encode(!empty($isEdit)); ?>;
+var lookupUrl = "<?php echo url('add'); ?>";
 
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
+layui.use(['form', 'func', 'upload', 'jquery'], function() {
+    var $ = layui.jquery, form = layui.form;
+    var maxSuppliers = 10;
+    var tplHtml = $('#tplSupplierRow').html();
+
+    function rowCount() {
+        return $('#supplierRows .supplier-row').length;
+    }
+
+    function updateAddButtonState() {
+        $('#btnAddSupplier').prop('disabled', rowCount() >= maxSuppliers);
+    }
+
+    function reindexRowNames() {
+        $('#supplierRows .supplier-row').each(function(i) {
+            var $row = $(this);
+            $row.find('.row-label').text('#' + (i + 1));
+            $row.find('.item-supplier').attr('name', 'items[' + i + '][supplier]');
+            $row.find('.item-quantity').attr('name', 'items[' + i + '][quantity]');
+            $row.find('.item-price_excluding_tax').attr('name', 'items[' + i + '][price_excluding_tax]');
+            $row.find('.item-total_price').attr('name', 'items[' + i + '][total_price]');
+            $row.find('.item-tax_rate').attr('name', 'items[' + i + '][tax_rate]');
+            $row.find('.item-invoice_type').attr('name', 'items[' + i + '][invoice_type]');
+            $row.find('.item-remark').attr('name', 'items[' + i + '][remark]');
+            $row.find('.item-supplier_id').attr('name', 'items[' + i + '][supplier_id]');
+            $row.find('.item-need_spectrum').attr('name', 'items[' + i + '][need_spectrum]');
         });
-        // 必须重新渲染
         form.render('select');
+        form.render('radio');
+    }
+
+    function addRow(data) {
+        if (rowCount() >= maxSuppliers) {
+            layer.msg('最多添加10个供应商', {icon: 0});
+            return;
+        }
+        var $node = $(tplHtml);
+        $('#supplierRows').append($node);
+        if (data) {
+            $node.find('.item-supplier').val(data.supplier || '');
+            $node.find('.item-quantity').val(data.quantity != null ? data.quantity : '');
+            $node.find('.item-price_excluding_tax').val(data.price_excluding_tax != null ? data.price_excluding_tax : '');
+            $node.find('.item-total_price').val(data.total_price != null ? data.total_price : '');
+            $node.find('.item-tax_rate').val(data.tax_rate != null ? data.tax_rate : '');
+            $node.find('.item-invoice_type').val(String(data.invoice_type != null ? data.invoice_type : '1'));
+            $node.find('.item-remark').val(data.remark || '');
+            $node.find('.item-supplier_id').val(data.supplier_id != null ? data.supplier_id : 0);
+            var ns = String(data.need_spectrum == null ? 1 : data.need_spectrum);
+            $node.find('.item-need_spectrum[value="' + ns + '"]').prop('checked', true);
+        }
+        reindexRowNames();
+        updateAddButtonState();
+    }
+
+    $('#btnAddSupplier').on('click', function() {
+        addRow(null);
     });
-	function ShowLayerMessage(msgStr,msgIndex)
-	{
-		layui.use(['layer'], function(){
-			var layer = layui.layer;
-			layer.msg(msgStr, {icon: msgIndex});
-		});
-	}
-    </script>
+
+    $('#supplierRows').on('click', '.btn-remove-row', function() {
+        if (rowCount() <= 1) {
+            layer.msg('至少保留一行供应商报价', {icon: 0});
+            return;
+        }
+        $(this).closest('.supplier-row').remove();
+        reindexRowNames();
+        updateAddButtonState();
+    });
+
+    function runLookup() {
+        var catalog = $.trim($('#field-catalog').val());
+        if (!catalog) {
+            layer.msg('请先输入货号', {icon: 0});
+            return;
+        }
+        $.ajax({
+            url: lookupUrl,
+            data: {lookup_catalog: catalog},
+            dataType: 'json',
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        }).done(function(res) {
+            if (res.code !== 0) {
+                layer.msg(res.msg || '查询失败', {icon: 2});
+                return;
+            }
+            var d = res.data || {};
+            $('#field-product_name').val(d.name || '');
+            if (!isEdit && d.cas) {
+                $('#field-cas').val(d.cas);
+            }
+        }).fail(function() {
+            layer.msg('请求失败', {icon: 2});
+        });
+    }
+
+    $('#btnLookupProduct').on('click', runLookup);
+    $('#field-catalog').on('blur', function() {
+        if (!isEdit) {
+            runLookup();
+        }
+    });
+
+    if (isEdit) {
+        $('#field-catalog').prop('readonly', true);
+        $('#field-cas').prop('readonly', true);
+        $('#field-product_name').prop('readonly', true);
+        layui.func.assign(formData);
+        $('#field-id').val(formData.id || '');
+        $('#field-inquiry_no').val(formData.inquiry_no || '');
+        $('#field-catalog').val(formData.catalog || '');
+        $('#field-cas').val(formData.cas || '');
+        $('#field-product_name').val(formData.product_name || '');
+        var arr = Array.isArray(itemsJson) ? itemsJson : [];
+        if (!arr.length) {
+            addRow(null);
+        } else {
+            for (var j = 0; j < arr.length; j++) {
+                addRow(arr[j]);
+            }
+        }
+    } else {
+        layui.func.assign(formData);
+        addRow(null);
+    }
+
+    form.render('select');
+    form.render('radio');
+});
+</script>
+
                     </div>
                 </div>
             </div>
@@ -521,75 +962,107 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         
         <div class="page-tab-content">
             <form class="layui-form" action="<?php echo url(); ?>" method="post" id="editForm" lay-filter="editForm">
- 
+
     <div class="layui-form-item">
-		<label class="layui-form-label">货号</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号">
+        <label class="layui-form-label">货号</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input type="text" class="layui-input js-catalog" name="catalog" lay-verify="required" autocomplete="off" placeholder="请输入货号" id="field-catalog">
         </div>
-		<label class="layui-form-label">CAS号</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+        <div class="layui-input-inline<?php if(!empty($isEdit)): ?> layui-hide<?php endif; ?>" style="width:auto;">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm js-lookup-product" id="btnLookupProduct">按货号查品名</button>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">供应商名称</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-supplier" name="supplier" lay-verify="required" autocomplete="off" placeholder="请输入供应商名称">
+        <label class="layui-form-label">CAS号</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input type="text" class="layui-input js-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号" id="field-cas">
         </div>
-        <label class="layui-form-label">数量</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-quantity" name="quantity" lay-verify="" autocomplete="off" placeholder="请输入数量">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline" style="width:280px;">
+            <input type="text" class="layui-input js-product-name" name="product_name" readonly autocomplete="off" placeholder="根据货号自动带出" id="field-product_name">
         </div>
     </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top:16px;">
+        <legend>供应商报价（最多10家）</legend>
+    </fieldset>
+    <div id="supplierRows"></div>
     <div class="layui-form-item">
-		<label class="layui-form-label">不含税价格</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-price_excluding_tax" name="price_excluding_tax" lay-verify="" autocomplete="off" placeholder="请输入不含税价格">
-        </div>
-		<label class="layui-form-label">总价格</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-delivered_num" name="total_price" lay-verify="" autocomplete="off" placeholder="请输入总价">
-        </div>
-        <label class="layui-form-label">税率</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-tax_rate" name="tax_rate" lay-verify="" autocomplete="off" placeholder="请输入税率">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-primary" id="btnAddSupplier"><i class="layui-icon">&#xe654;</i> 添加供应商</button>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">发票类型</label>
-        <div class="layui-input-inline">
-            <select name="invoice_type" lay-verify="">
-                <option value="1" selected>普通发票</option>
-                <option value="2">专用发票</option>
-            </select>
-        </div>
-        <label class="layui-form-label">是否提供谱图</label>
-        <div class="layui-input-inline">
-            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="1" title="是" checked>
-            <input type="radio" class="field-need_spectrum" name="need_spectrum" value="0" title="否">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input field-remark" name="remark" lay-verify="" autocomplete="off" placeholder="备注">
-        </div>
-    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <?php echo token(); ?>
-            <input type="hidden" class="field-id" name="id">
-            <input type="hidden" class="field-inquiry_no" name="inquiry_no">
+            <input type="hidden" class="field-id" name="id" id="field-id">
+            <input type="hidden" class="field-inquiry_no" name="inquiry_no" id="field-inquiry_no">
         </div>
     </div>
     <div class="pop-bottom-bar">
         <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit" hisi-data="{pop: true, refresh: true}">提交保存</button>
         <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
     </div>
-    </form>
+</form>
 
-    <script src="/static/js/layui/layui.js?v=<?php echo config('hisiphp.version'); ?>"></script>
+<script type="text/html" id="tplSupplierRow">
+    <div class="layui-card supplier-row" style="margin-bottom:12px;">
+        <div class="layui-card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>供应商报价 <span class="row-label"></span></span>
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-remove-row">删除</button>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商</label>
+                <div class="layui-input-inline" style="width:200px;">
+                    <input type="text" class="layui-input item-supplier" lay-verify="required" autocomplete="off" placeholder="供应商名称">
+                </div>
+                <label class="layui-form-label">数量</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-quantity" autocomplete="off" placeholder="数量">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">不含税价</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-price_excluding_tax" autocomplete="off" placeholder="不含税价">
+                </div>
+                <label class="layui-form-label">总价</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input item-total_price" autocomplete="off" placeholder="总价">
+                </div>
+                <label class="layui-form-label">税率</label>
+                <div class="layui-input-inline" style="width:100px;">
+                    <input type="text" class="layui-input item-tax_rate" autocomplete="off" placeholder="税率%">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">发票类型</label>
+                <div class="layui-input-inline" style="width:160px;">
+                    <select class="item-invoice_type">
+                        <option value="1">普通发票</option>
+                        <option value="2">专用发票</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">谱图</label>
+                <div class="layui-input-inline" style="width:200px;">
+                    <input type="radio" class="item-need_spectrum" name="need_spectrum_placeholder" value="1" title="是" checked>
+                    <input type="radio" class="item-need_spectrum" name="need_spectrum_placeholder" value="0" title="否">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline" style="width:400px;">
+                    <input type="text" class="layui-input item-remark" autocomplete="off" placeholder="备注">
+                </div>
+            </div>
+            <input type="hidden" class="item-supplier_id" value="0">
+        </div>
+    </div>
+</script>
+
+<script src="/static/js/layui/layui.js?v=<?php echo config('hisiphp.version'); ?>"></script>
 <script src="/static/js/jquery.2.1.4.min.js?v=<?php echo config('hisiphp.version'); ?>"></script>
 <script>
     var ADMIN_PATH = "<?php echo htmlentities($_SERVER['SCRIPT_NAME']); ?>", LAYUI_OFFSET = 60;
@@ -598,26 +1071,141 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         version: '<?php echo config("hisiphp.version"); ?>'
     }).use('global');
 </script>
-    <script>
-    var formData = <?php echo json_encode($formData); ?>;
-    layui.use(['form', 'func','upload'], function() {
-        var $ = layui.jquery, form = layui.form, upload = layui.upload;
-        layui.func.assign(formData);
+<script>
+var formData = <?php echo json_encode(isset($formData) ? $formData : []); ?>;
+var itemsJson = <?php echo json_encode(isset($itemsJson) ? $itemsJson : [], JSON_UNESCAPED_UNICODE); ?>;
+var isEdit = <?php echo json_encode(!empty($isEdit)); ?>;
+var lookupUrl = "<?php echo url('add'); ?>";
 
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
+layui.use(['form', 'func', 'upload', 'jquery'], function() {
+    var $ = layui.jquery, form = layui.form;
+    var maxSuppliers = 10;
+    var tplHtml = $('#tplSupplierRow').html();
+
+    function rowCount() {
+        return $('#supplierRows .supplier-row').length;
+    }
+
+    function updateAddButtonState() {
+        $('#btnAddSupplier').prop('disabled', rowCount() >= maxSuppliers);
+    }
+
+    function reindexRowNames() {
+        $('#supplierRows .supplier-row').each(function(i) {
+            var $row = $(this);
+            $row.find('.row-label').text('#' + (i + 1));
+            $row.find('.item-supplier').attr('name', 'items[' + i + '][supplier]');
+            $row.find('.item-quantity').attr('name', 'items[' + i + '][quantity]');
+            $row.find('.item-price_excluding_tax').attr('name', 'items[' + i + '][price_excluding_tax]');
+            $row.find('.item-total_price').attr('name', 'items[' + i + '][total_price]');
+            $row.find('.item-tax_rate').attr('name', 'items[' + i + '][tax_rate]');
+            $row.find('.item-invoice_type').attr('name', 'items[' + i + '][invoice_type]');
+            $row.find('.item-remark').attr('name', 'items[' + i + '][remark]');
+            $row.find('.item-supplier_id').attr('name', 'items[' + i + '][supplier_id]');
+            $row.find('.item-need_spectrum').attr('name', 'items[' + i + '][need_spectrum]');
         });
-        // 必须重新渲染
         form.render('select');
+        form.render('radio');
+    }
+
+    function addRow(data) {
+        if (rowCount() >= maxSuppliers) {
+            layer.msg('最多添加10个供应商', {icon: 0});
+            return;
+        }
+        var $node = $(tplHtml);
+        $('#supplierRows').append($node);
+        if (data) {
+            $node.find('.item-supplier').val(data.supplier || '');
+            $node.find('.item-quantity').val(data.quantity != null ? data.quantity : '');
+            $node.find('.item-price_excluding_tax').val(data.price_excluding_tax != null ? data.price_excluding_tax : '');
+            $node.find('.item-total_price').val(data.total_price != null ? data.total_price : '');
+            $node.find('.item-tax_rate').val(data.tax_rate != null ? data.tax_rate : '');
+            $node.find('.item-invoice_type').val(String(data.invoice_type != null ? data.invoice_type : '1'));
+            $node.find('.item-remark').val(data.remark || '');
+            $node.find('.item-supplier_id').val(data.supplier_id != null ? data.supplier_id : 0);
+            var ns = String(data.need_spectrum == null ? 1 : data.need_spectrum);
+            $node.find('.item-need_spectrum[value="' + ns + '"]').prop('checked', true);
+        }
+        reindexRowNames();
+        updateAddButtonState();
+    }
+
+    $('#btnAddSupplier').on('click', function() {
+        addRow(null);
     });
-	function ShowLayerMessage(msgStr,msgIndex)
-	{
-		layui.use(['layer'], function(){
-			var layer = layui.layer;
-			layer.msg(msgStr, {icon: msgIndex});
-		});
-	}
-    </script>
+
+    $('#supplierRows').on('click', '.btn-remove-row', function() {
+        if (rowCount() <= 1) {
+            layer.msg('至少保留一行供应商报价', {icon: 0});
+            return;
+        }
+        $(this).closest('.supplier-row').remove();
+        reindexRowNames();
+        updateAddButtonState();
+    });
+
+    function runLookup() {
+        var catalog = $.trim($('#field-catalog').val());
+        if (!catalog) {
+            layer.msg('请先输入货号', {icon: 0});
+            return;
+        }
+        $.ajax({
+            url: lookupUrl,
+            data: {lookup_catalog: catalog},
+            dataType: 'json',
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        }).done(function(res) {
+            if (res.code !== 0) {
+                layer.msg(res.msg || '查询失败', {icon: 2});
+                return;
+            }
+            var d = res.data || {};
+            $('#field-product_name').val(d.name || '');
+            if (!isEdit && d.cas) {
+                $('#field-cas').val(d.cas);
+            }
+        }).fail(function() {
+            layer.msg('请求失败', {icon: 2});
+        });
+    }
+
+    $('#btnLookupProduct').on('click', runLookup);
+    $('#field-catalog').on('blur', function() {
+        if (!isEdit) {
+            runLookup();
+        }
+    });
+
+    if (isEdit) {
+        $('#field-catalog').prop('readonly', true);
+        $('#field-cas').prop('readonly', true);
+        $('#field-product_name').prop('readonly', true);
+        layui.func.assign(formData);
+        $('#field-id').val(formData.id || '');
+        $('#field-inquiry_no').val(formData.inquiry_no || '');
+        $('#field-catalog').val(formData.catalog || '');
+        $('#field-cas').val(formData.cas || '');
+        $('#field-product_name').val(formData.product_name || '');
+        var arr = Array.isArray(itemsJson) ? itemsJson : [];
+        if (!arr.length) {
+            addRow(null);
+        } else {
+            for (var j = 0; j < arr.length; j++) {
+                addRow(arr[j]);
+            }
+        }
+    } else {
+        layui.func.assign(formData);
+        addRow(null);
+    }
+
+    form.render('select');
+    form.render('radio');
+});
+</script>
+
         </div>
 <?php endswitch; if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 </body>

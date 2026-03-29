@@ -18,21 +18,21 @@ use think\Model;
  */
 class SystemInquiryOrder extends Model
 {
-    // 定义时间戳字段名
     protected $createTime = 'ctime';
     protected $updateTime = 'mtime';
-
-    // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
-    
+    public function items()
+    {
+        return $this->hasMany(SystemInquiryOrderItem::class, 'inquiry_order_id', 'id');
+    }
+
     /**
-     * 删除用户
      * @param string $id 用户ID
      * @author 橘子俊 <364666827@qq.com>
      * @return bool
      */
-    public function del($id = 0) 
+    public function del($id = 0)
     {
         if (is_array($id)) {
             $error = '';
@@ -41,10 +41,8 @@ class SystemInquiryOrder extends Model
                     $error .= '参数传递错误['.$v.']！<br>';
                     continue;
                 }
-                $map = [];
-                $map['id'] = $v;
-                // 删除用户
-                self::where($map)->delete();
+                SystemInquiryOrderItem::where('inquiry_order_id', $v)->delete();
+                self::where('id', $v)->delete();
             }
             if ($error) {
                 $this->error = $error;
@@ -56,13 +54,9 @@ class SystemInquiryOrder extends Model
                 $this->error = '参数传递错误！';
                 return false;
             }
-            $map = [];
-            $map['id'] = $id;
-            // 删除用户
-            self::where($map)->delete();
+            SystemInquiryOrderItem::where('inquiry_order_id', $id)->delete();
+            self::where('id', $id)->delete();
         }
         return true;
     }
-
-   
 }

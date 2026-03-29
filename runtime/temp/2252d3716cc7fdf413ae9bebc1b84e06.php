@@ -1,4 +1,4 @@
-<?php /*a:6:{s:56:"/www/chemical/application/system/view/inquiry/index.html";i:1769436171;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
+<?php /*a:6:{s:56:"/www/chemical/application/system/view/inquiry/index.html";i:1774758211;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
 <?php if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 <!DOCTYPE html>
 <html>
@@ -177,23 +177,18 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                         <div class="layui-field-box">
 <form class="layui-form" id="hisiSearch">
 	<div class="layui-form-item mb0">
-		<!--搜索  -->
 		  <div class="layui-form-item">
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
+				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>" autocomplete="off" placeholder="货号">
 			</div>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
-			</div>
-
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
+				<input type="text" class="layui-input field-name" name="name" autocomplete="off" placeholder="商品名称">
 			</div>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+				<input type="text" class="layui-input field-cas" name="cas" autocomplete="off" placeholder="CAS号">
 			</div>
 			 <div class="layui-input-inline">
-				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+				<input type="text" class="layui-input field-supplier" name="supplier" autocomplete="off" placeholder="供应商名称">
 			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
@@ -229,8 +224,8 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         var table = layui.table;
         table.render({
             elem: '#dataTable'
-            ,url: '<?php echo url(); ?>' //数据接口
-            ,page: true //开启分页
+            ,url: '<?php echo url(); ?>'
+            ,page: true
             ,skin: 'row'
             ,even: true
             ,limit: 20
@@ -239,32 +234,20 @@ $ca = strtolower(request()->controller().'/'.request()->action());
             }
             ,toolbar: '#toolbar'
             ,defaultToolbar: ['filter']
-            ,cols: [[ //表头
+            ,cols: [[
                  {type:'checkbox',fixed:'left'}
 				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
+				,{field: 'inquiry_no', title: '单号', width: 130}
 				,{field: 'catalog', title: '货号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
-				,{field: 'inquiry_no', title: '单号', width: 100}
-				,{field: 'supplier', title: '供应商名称', width: 100}
-				,{field: 'quantity', title: '数量', width: 100}
-				,{field: 'price_excluding_tax', title: '不含税价', width: 100}
-				,{field: 'total_price', title: '总价', width: 100}
-				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
-						var typeMap = {
-							'1': '普通发票',
-							'2': '专用发票',
-						};
-						return typeMap[d.invoice_type] || '未知';
-					}},
-				,{field: 'tax_rate', title: '税率', width: 100}
-				,{field: 'need_spectrum', title: '是否提供谱图',width: 100, templet: function(d){
-						return d.is_analysis == 1 ? '是' : '否';
-					}},
-				,{field: 'remark', title: '备注', width: 100}
+				,{field: 'product_name', title: '商品名称', width: 140}
+				,{field: 'quote_count', title: '报价家数', width: 90}
+				,{field: 'supplier_summary', title: '供应商摘要', minWidth: 200}
             ]]
         });
     });
 </script>
+
                     </div>
                 </div>
             </div>
@@ -287,23 +270,18 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                     <div class="layui-field-box">
 <form class="layui-form" id="hisiSearch">
 	<div class="layui-form-item mb0">
-		<!--搜索  -->
 		  <div class="layui-form-item">
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
+				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>" autocomplete="off" placeholder="货号">
 			</div>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
-			</div>
-
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
+				<input type="text" class="layui-input field-name" name="name" autocomplete="off" placeholder="商品名称">
 			</div>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+				<input type="text" class="layui-input field-cas" name="cas" autocomplete="off" placeholder="CAS号">
 			</div>
 			 <div class="layui-input-inline">
-				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+				<input type="text" class="layui-input field-supplier" name="supplier" autocomplete="off" placeholder="供应商名称">
 			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
@@ -339,8 +317,8 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         var table = layui.table;
         table.render({
             elem: '#dataTable'
-            ,url: '<?php echo url(); ?>' //数据接口
-            ,page: true //开启分页
+            ,url: '<?php echo url(); ?>'
+            ,page: true
             ,skin: 'row'
             ,even: true
             ,limit: 20
@@ -349,32 +327,20 @@ $ca = strtolower(request()->controller().'/'.request()->action());
             }
             ,toolbar: '#toolbar'
             ,defaultToolbar: ['filter']
-            ,cols: [[ //表头
+            ,cols: [[
                  {type:'checkbox',fixed:'left'}
 				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
+				,{field: 'inquiry_no', title: '单号', width: 130}
 				,{field: 'catalog', title: '货号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
-				,{field: 'inquiry_no', title: '单号', width: 100}
-				,{field: 'supplier', title: '供应商名称', width: 100}
-				,{field: 'quantity', title: '数量', width: 100}
-				,{field: 'price_excluding_tax', title: '不含税价', width: 100}
-				,{field: 'total_price', title: '总价', width: 100}
-				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
-						var typeMap = {
-							'1': '普通发票',
-							'2': '专用发票',
-						};
-						return typeMap[d.invoice_type] || '未知';
-					}},
-				,{field: 'tax_rate', title: '税率', width: 100}
-				,{field: 'need_spectrum', title: '是否提供谱图',width: 100, templet: function(d){
-						return d.is_analysis == 1 ? '是' : '否';
-					}},
-				,{field: 'remark', title: '备注', width: 100}
+				,{field: 'product_name', title: '商品名称', width: 140}
+				,{field: 'quote_count', title: '报价家数', width: 90}
+				,{field: 'supplier_summary', title: '供应商摘要', minWidth: 200}
             ]]
         });
     });
 </script>
+
                 </div>
             </div>
         </div>
@@ -404,23 +370,18 @@ $ca = strtolower(request()->controller().'/'.request()->action());
                         <div class="layui-field-box">
 <form class="layui-form" id="hisiSearch">
 	<div class="layui-form-item mb0">
-		<!--搜索  -->
 		  <div class="layui-form-item">
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
+				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>" autocomplete="off" placeholder="货号">
 			</div>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
-			</div>
-
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
+				<input type="text" class="layui-input field-name" name="name" autocomplete="off" placeholder="商品名称">
 			</div>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+				<input type="text" class="layui-input field-cas" name="cas" autocomplete="off" placeholder="CAS号">
 			</div>
 			 <div class="layui-input-inline">
-				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+				<input type="text" class="layui-input field-supplier" name="supplier" autocomplete="off" placeholder="供应商名称">
 			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
@@ -456,8 +417,8 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         var table = layui.table;
         table.render({
             elem: '#dataTable'
-            ,url: '<?php echo url(); ?>' //数据接口
-            ,page: true //开启分页
+            ,url: '<?php echo url(); ?>'
+            ,page: true
             ,skin: 'row'
             ,even: true
             ,limit: 20
@@ -466,32 +427,20 @@ $ca = strtolower(request()->controller().'/'.request()->action());
             }
             ,toolbar: '#toolbar'
             ,defaultToolbar: ['filter']
-            ,cols: [[ //表头
+            ,cols: [[
                  {type:'checkbox',fixed:'left'}
 				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
+				,{field: 'inquiry_no', title: '单号', width: 130}
 				,{field: 'catalog', title: '货号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
-				,{field: 'inquiry_no', title: '单号', width: 100}
-				,{field: 'supplier', title: '供应商名称', width: 100}
-				,{field: 'quantity', title: '数量', width: 100}
-				,{field: 'price_excluding_tax', title: '不含税价', width: 100}
-				,{field: 'total_price', title: '总价', width: 100}
-				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
-						var typeMap = {
-							'1': '普通发票',
-							'2': '专用发票',
-						};
-						return typeMap[d.invoice_type] || '未知';
-					}},
-				,{field: 'tax_rate', title: '税率', width: 100}
-				,{field: 'need_spectrum', title: '是否提供谱图',width: 100, templet: function(d){
-						return d.is_analysis == 1 ? '是' : '否';
-					}},
-				,{field: 'remark', title: '备注', width: 100}
+				,{field: 'product_name', title: '商品名称', width: 140}
+				,{field: 'quote_count', title: '报价家数', width: 90}
+				,{field: 'supplier_summary', title: '供应商摘要', minWidth: 200}
             ]]
         });
     });
 </script>
+
                     </div>
                 </div>
             </div>
@@ -502,23 +451,18 @@ $ca = strtolower(request()->controller().'/'.request()->action());
             <div class="layui-field-box">
 <form class="layui-form" id="hisiSearch">
 	<div class="layui-form-item mb0">
-		<!--搜索  -->
 		  <div class="layui-form-item">
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>"  lay-verify="required" autocomplete="off" placeholder="请输入货号">
+				<input type="text" class="layui-input field-catalog" name="catalog" value="<?php echo input('get.catalog'); ?>" autocomplete="off" placeholder="货号">
 			</div>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入中文名称">
-			</div>
-
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-ename" name="ename" lay-verify="required" autocomplete="off" placeholder="请输入英文名称">
+				<input type="text" class="layui-input field-name" name="name" autocomplete="off" placeholder="商品名称">
 			</div>
 			<div class="layui-input-inline">
-				<input type="text" class="layui-input field-cas" name="cas" lay-verify="required" autocomplete="off" placeholder="请输入CAS号">
+				<input type="text" class="layui-input field-cas" name="cas" autocomplete="off" placeholder="CAS号">
 			</div>
 			 <div class="layui-input-inline">
-				<input type="text" class="layui-input field-supplier" name="supplier" lay-verify="" autocomplete="off" placeholder="请输入供应商名称">
+				<input type="text" class="layui-input field-supplier" name="supplier" autocomplete="off" placeholder="供应商名称">
 			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
@@ -554,8 +498,8 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         var table = layui.table;
         table.render({
             elem: '#dataTable'
-            ,url: '<?php echo url(); ?>' //数据接口
-            ,page: true //开启分页
+            ,url: '<?php echo url(); ?>'
+            ,page: true
             ,skin: 'row'
             ,even: true
             ,limit: 20
@@ -564,32 +508,20 @@ $ca = strtolower(request()->controller().'/'.request()->action());
             }
             ,toolbar: '#toolbar'
             ,defaultToolbar: ['filter']
-            ,cols: [[ //表头
+            ,cols: [[
                  {type:'checkbox',fixed:'left'}
 				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
+				,{field: 'inquiry_no', title: '单号', width: 130}
 				,{field: 'catalog', title: '货号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
-				,{field: 'inquiry_no', title: '单号', width: 100}
-				,{field: 'supplier', title: '供应商名称', width: 100}
-				,{field: 'quantity', title: '数量', width: 100}
-				,{field: 'price_excluding_tax', title: '不含税价', width: 100}
-				,{field: 'total_price', title: '总价', width: 100}
-				,{field: 'invoice_type', title: '发票类型', width: 100, templet: function(d){
-						var typeMap = {
-							'1': '普通发票',
-							'2': '专用发票',
-						};
-						return typeMap[d.invoice_type] || '未知';
-					}},
-				,{field: 'tax_rate', title: '税率', width: 100}
-				,{field: 'need_spectrum', title: '是否提供谱图',width: 100, templet: function(d){
-						return d.is_analysis == 1 ? '是' : '否';
-					}},
-				,{field: 'remark', title: '备注', width: 100}
+				,{field: 'product_name', title: '商品名称', width: 140}
+				,{field: 'quote_count', title: '报价家数', width: 90}
+				,{field: 'supplier_summary', title: '供应商摘要', minWidth: 200}
             ]]
         });
     });
 </script>
+
         </div>
 <?php endswitch; if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 </body>
