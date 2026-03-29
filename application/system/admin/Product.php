@@ -39,37 +39,10 @@ class Product extends Admin
     public function index($q = '')
     {
         if ($this->request->isAjax()) {
-            $where      = $data = [];
-            $page       = $this->request->param('page/d', 1);
-            $limit      = $this->request->param('limit/d', 15);
-            $name    = $this->request->param('name/s');
-            if ($name) {
-                $where[] = ['name', 'like', "%{$name}%"];
-            }
-			$ename  = $this->request->param('ename/s');
-            if ($ename) {
-                $where[] = ['ename', 'like', "%{$ename}%"];
-            }
-			$cas  = $this->request->param('cas/s');
-            if ($cas) {
-                $where[] = ['cas', '=', "{$cas}"];
-            }
-			$smiles  = $this->request->param('smiles/s');
-            if ($smiles) {
-                $where[] = ['smiles', '=', "{$smiles}"];
-            }
-			$mdl  = $this->request->param('mdl/s');
-            if ($mdl) {
-                $where[] = ['mdl', '=', "{$mdl}"];
-            }
-			$inchikey  = $this->request->param('inchikey/s');
-            if ($inchikey) {
-                $where[] = ['inchikey', '=', "{$inchikey}"];
-            }
-			$catalog  = $this->request->param('catalog/s');
-            if ($catalog) {
-                $where[] = ['catalog', '=', "{$catalog}"];
-            }
+            $where = $this->buildProductSearchWhere();
+            $this->appendCtimeToWhere($where, 'ctime');
+            $page  = $this->request->param('page/d', 1);
+            $limit = $this->request->param('limit/d', 15);
             $data['data'] = ProductModel::where($where)->page($page)->limit($limit)->select();
             $data['count'] = ProductModel::where($where)->count('id');
             $data['code'] = 0;
@@ -82,6 +55,44 @@ class Product extends Admin
         $assign['hisiTabType'] = 1;
         //$assign['roles'] = RoleModel::column('id,name');
         return $this->assign($assign)->fetch();
+    }
+
+    /**
+     * 产品列表/导出共用筛选（不含添加时间）
+     * @return array
+     */
+    private function buildProductSearchWhere()
+    {
+        $where = [];
+        $name = $this->request->param('name/s');
+        if ($name) {
+            $where[] = ['name', 'like', "%{$name}%"];
+        }
+        $ename = $this->request->param('ename/s');
+        if ($ename) {
+            $where[] = ['ename', 'like', "%{$ename}%"];
+        }
+        $cas = $this->request->param('cas/s');
+        if ($cas) {
+            $where[] = ['cas', '=', "{$cas}"];
+        }
+        $smiles = $this->request->param('smiles/s');
+        if ($smiles) {
+            $where[] = ['smiles', '=', "{$smiles}"];
+        }
+        $mdl = $this->request->param('mdl/s');
+        if ($mdl) {
+            $where[] = ['mdl', '=', "{$mdl}"];
+        }
+        $inchikey = $this->request->param('inchikey/s');
+        if ($inchikey) {
+            $where[] = ['inchikey', '=', "{$inchikey}"];
+        }
+        $catalog = $this->request->param('catalog/s');
+        if ($catalog) {
+            $where[] = ['catalog', '=', "{$catalog}"];
+        }
+        return $where;
     }
 
     /**
@@ -299,37 +310,10 @@ class Product extends Admin
 			,25=>'复检周期'
 			,26=>'备注'
 		];
-		$where = [];
-		$limit = 100;
-		$name    = $this->request->param('name/s');
-		if ($name) {
-			$where[] = ['name', 'like', "%{$name}%"];
-		}
-		$ename  = $this->request->param('ename/s');
-		if ($ename) {
-			$where[] = ['ename', 'like', "%{$ename}%"];
-		}
-		$cas  = $this->request->param('cas/s');
-		if ($cas) {
-			$where[] = ['cas', '=', "{$cas}"];
-		}
-		$smiles  = $this->request->param('smiles/s');
-		if ($smiles) {
-			$where[] = ['smiles', '=', "{$smiles}"];
-		}
-		$mdl  = $this->request->param('mdl/s');
-		if ($mdl) {
-			$where[] = ['mdl', '=', "{$mdl}"];
-		}
-		$inchikey  = $this->request->param('inchikey/s');
-		if ($inchikey) {
-			$where[] = ['inchikey', '=', "{$inchikey}"];
-		}
-		$catalog  = $this->request->param('catalog/s');
-		if ($catalog) {
-			$where[] = ['catalog', '=', "{$catalog}"];
-		}
-		$list = ProductModel::where($where)->limit($limit)->select();
+		$where = $this->buildProductSearchWhere();
+		$this->appendCtimeToWhere($where, 'ctime');
+		$exportLimit = 50000;
+		$list = ProductModel::where($where)->limit($exportLimit)->select();
 		//var_dump($list);exit;
 		$resultArray=array();
 		foreach ($list as $tem_obj){

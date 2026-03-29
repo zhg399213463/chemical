@@ -48,6 +48,8 @@ class Inquiry extends Admin
                 $query->where('id', 'in', $ids);
             }
 
+            $this->appendCtimeToQuery($query, 'ctime');
+
             $count = (clone $query)->count();
             $list  = $query->page($page, $limit)->select();
 

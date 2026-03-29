@@ -49,9 +49,10 @@ class Purchase extends Admin
             }
 			$catalog  = $this->request->param('catalog/s');
             if ($catalog) {
-                $where[] = ['b.catalog', '=', "{$catalog}"];
+                $where[] = ['catalog', '=', "{$catalog}"];
             }
-	
+            $this->appendCtimeToWhere($where, 'ctime');
+
             $data['data'] = PurchaseModel::where($where)->page($page)->limit($limit)->select();
 
             $data['count'] = PurchaseModel::where($where)->count('id');

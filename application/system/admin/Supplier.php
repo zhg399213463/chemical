@@ -47,6 +47,7 @@ class Supplier extends Admin
             if ($supplierName) {
                 $where[] = ['supplier_name', 'like', "%{$supplierName}%"];
             }
+            $this->appendCtimeToWhere($where, 'ctime');
 
             $data['data'] = SupplierModel::where($where)->page($page)->limit($limit)->select();
             $data['count'] = SupplierModel::where($where)->count('id');

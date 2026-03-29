@@ -1,4 +1,4 @@
-<?php /*a:6:{s:56:"/www/chemical/application/system/view/product/index.html";i:1769267039;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
+<?php /*a:6:{s:56:"/www/chemical/application/system/view/product/index.html";i:1774763810;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
 <?php if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 <!DOCTYPE html>
 <html>
@@ -201,6 +201,12 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-inchikey" name="inchikey" lay-verify="" autocomplete="off" placeholder="请输入InChIKey">
 			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_start" id="product_ctime_start" autocomplete="off" placeholder="添加开始日期">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_end" id="product_ctime_end" autocomplete="off" placeholder="添加结束日期">
+			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
 	</div>
@@ -228,14 +234,21 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         <a href="<?php echo url('add'); ?>" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-circle-fine"  title="添加">&nbsp;添加</a>
         <a data-href="<?php echo url('del'); ?>" class="layui-btn layui-btn-primary layui-btn-sm j-page-btns confirm layui-icon layui-icon-close red">&nbsp;删除</a>
 		<button id="upload_data_tag" class="layui-btn layui-btn-primary layui-btn-sm" lay-submit><i class="layui-icon" title="批量导入">&#xe62f;</i>批量导入</button>
-		<a href="<?php echo url('download'); ?>" class="layui-btn layui-btn-primary layui-btn-sm"  title="批量导出"><i class="layui-icon" title="批量导出">&#xe601;</i>批量导出</a>
+		<a href="javascript:;" id="btnProductExport" class="layui-btn layui-btn-primary layui-btn-sm"  title="批量导出"><i class="layui-icon" title="批量导出">&#xe601;</i>批量导出</a>
     </div>
 </script>
 
 <script type="text/javascript">
-    layui.use(['table','upload'], function() {
+    layui.use(['table','upload','laydate','jquery'], function() {
         var table = layui.table;
 		var upload = layui.upload;
+        var $ = layui.jquery;
+        layui.laydate.render({elem: '#product_ctime_start', type: 'date'});
+        layui.laydate.render({elem: '#product_ctime_end', type: 'date'});
+        $(document).on('click', '#btnProductExport', function() {
+            var q = $('#hisiSearch').serialize();
+            window.location.href = '<?php echo url("download"); ?>' + (q ? ('?' + q) : '');
+        });
         table.render({
             elem: '#dataTable'
             ,url: '<?php echo url(); ?>' //数据接口
@@ -368,6 +381,12 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-inchikey" name="inchikey" lay-verify="" autocomplete="off" placeholder="请输入InChIKey">
 			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_start" id="product_ctime_start" autocomplete="off" placeholder="添加开始日期">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_end" id="product_ctime_end" autocomplete="off" placeholder="添加结束日期">
+			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
 	</div>
@@ -395,14 +414,21 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         <a href="<?php echo url('add'); ?>" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-circle-fine"  title="添加">&nbsp;添加</a>
         <a data-href="<?php echo url('del'); ?>" class="layui-btn layui-btn-primary layui-btn-sm j-page-btns confirm layui-icon layui-icon-close red">&nbsp;删除</a>
 		<button id="upload_data_tag" class="layui-btn layui-btn-primary layui-btn-sm" lay-submit><i class="layui-icon" title="批量导入">&#xe62f;</i>批量导入</button>
-		<a href="<?php echo url('download'); ?>" class="layui-btn layui-btn-primary layui-btn-sm"  title="批量导出"><i class="layui-icon" title="批量导出">&#xe601;</i>批量导出</a>
+		<a href="javascript:;" id="btnProductExport" class="layui-btn layui-btn-primary layui-btn-sm"  title="批量导出"><i class="layui-icon" title="批量导出">&#xe601;</i>批量导出</a>
     </div>
 </script>
 
 <script type="text/javascript">
-    layui.use(['table','upload'], function() {
+    layui.use(['table','upload','laydate','jquery'], function() {
         var table = layui.table;
 		var upload = layui.upload;
+        var $ = layui.jquery;
+        layui.laydate.render({elem: '#product_ctime_start', type: 'date'});
+        layui.laydate.render({elem: '#product_ctime_end', type: 'date'});
+        $(document).on('click', '#btnProductExport', function() {
+            var q = $('#hisiSearch').serialize();
+            window.location.href = '<?php echo url("download"); ?>' + (q ? ('?' + q) : '');
+        });
         table.render({
             elem: '#dataTable'
             ,url: '<?php echo url(); ?>' //数据接口
@@ -542,6 +568,12 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-inchikey" name="inchikey" lay-verify="" autocomplete="off" placeholder="请输入InChIKey">
 			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_start" id="product_ctime_start" autocomplete="off" placeholder="添加开始日期">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_end" id="product_ctime_end" autocomplete="off" placeholder="添加结束日期">
+			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
 	</div>
@@ -569,14 +601,21 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         <a href="<?php echo url('add'); ?>" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-circle-fine"  title="添加">&nbsp;添加</a>
         <a data-href="<?php echo url('del'); ?>" class="layui-btn layui-btn-primary layui-btn-sm j-page-btns confirm layui-icon layui-icon-close red">&nbsp;删除</a>
 		<button id="upload_data_tag" class="layui-btn layui-btn-primary layui-btn-sm" lay-submit><i class="layui-icon" title="批量导入">&#xe62f;</i>批量导入</button>
-		<a href="<?php echo url('download'); ?>" class="layui-btn layui-btn-primary layui-btn-sm"  title="批量导出"><i class="layui-icon" title="批量导出">&#xe601;</i>批量导出</a>
+		<a href="javascript:;" id="btnProductExport" class="layui-btn layui-btn-primary layui-btn-sm"  title="批量导出"><i class="layui-icon" title="批量导出">&#xe601;</i>批量导出</a>
     </div>
 </script>
 
 <script type="text/javascript">
-    layui.use(['table','upload'], function() {
+    layui.use(['table','upload','laydate','jquery'], function() {
         var table = layui.table;
 		var upload = layui.upload;
+        var $ = layui.jquery;
+        layui.laydate.render({elem: '#product_ctime_start', type: 'date'});
+        layui.laydate.render({elem: '#product_ctime_end', type: 'date'});
+        $(document).on('click', '#btnProductExport', function() {
+            var q = $('#hisiSearch').serialize();
+            window.location.href = '<?php echo url("download"); ?>' + (q ? ('?' + q) : '');
+        });
         table.render({
             elem: '#dataTable'
             ,url: '<?php echo url(); ?>' //数据接口
@@ -697,6 +736,12 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-inchikey" name="inchikey" lay-verify="" autocomplete="off" placeholder="请输入InChIKey">
 			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_start" id="product_ctime_start" autocomplete="off" placeholder="添加开始日期">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_end" id="product_ctime_end" autocomplete="off" placeholder="添加结束日期">
+			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
 	</div>
@@ -724,14 +769,21 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         <a href="<?php echo url('add'); ?>" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-circle-fine"  title="添加">&nbsp;添加</a>
         <a data-href="<?php echo url('del'); ?>" class="layui-btn layui-btn-primary layui-btn-sm j-page-btns confirm layui-icon layui-icon-close red">&nbsp;删除</a>
 		<button id="upload_data_tag" class="layui-btn layui-btn-primary layui-btn-sm" lay-submit><i class="layui-icon" title="批量导入">&#xe62f;</i>批量导入</button>
-		<a href="<?php echo url('download'); ?>" class="layui-btn layui-btn-primary layui-btn-sm"  title="批量导出"><i class="layui-icon" title="批量导出">&#xe601;</i>批量导出</a>
+		<a href="javascript:;" id="btnProductExport" class="layui-btn layui-btn-primary layui-btn-sm"  title="批量导出"><i class="layui-icon" title="批量导出">&#xe601;</i>批量导出</a>
     </div>
 </script>
 
 <script type="text/javascript">
-    layui.use(['table','upload'], function() {
+    layui.use(['table','upload','laydate','jquery'], function() {
         var table = layui.table;
 		var upload = layui.upload;
+        var $ = layui.jquery;
+        layui.laydate.render({elem: '#product_ctime_start', type: 'date'});
+        layui.laydate.render({elem: '#product_ctime_end', type: 'date'});
+        $(document).on('click', '#btnProductExport', function() {
+            var q = $('#hisiSearch').serialize();
+            window.location.href = '<?php echo url("download"); ?>' + (q ? ('?' + q) : '');
+        });
         table.render({
             elem: '#dataTable'
             ,url: '<?php echo url(); ?>' //数据接口

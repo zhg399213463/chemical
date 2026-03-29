@@ -1,4 +1,4 @@
-<?php /*a:6:{s:56:"/www/chemical/application/system/view/inquiry/index.html";i:1774758211;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
+<?php /*a:6:{s:56:"/www/chemical/application/system/view/inquiry/index.html";i:1774762823;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
 <?php if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 <!DOCTYPE html>
 <html>
@@ -190,6 +190,12 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-supplier" name="supplier" autocomplete="off" placeholder="供应商名称">
 			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_start" id="inquiry_ctime_start" autocomplete="off" placeholder="添加开始日期">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_end" id="inquiry_ctime_end" autocomplete="off" placeholder="添加结束日期">
+			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
 	</div>
@@ -220,8 +226,10 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 </script>
 
 <script type="text/javascript">
-    layui.use(['table'], function() {
+    layui.use(['table','laydate','jquery'], function() {
         var table = layui.table;
+        layui.laydate.render({elem: '#inquiry_ctime_start', type: 'date'});
+        layui.laydate.render({elem: '#inquiry_ctime_end', type: 'date'});
         table.render({
             elem: '#dataTable'
             ,url: '<?php echo url(); ?>'
@@ -283,6 +291,12 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-supplier" name="supplier" autocomplete="off" placeholder="供应商名称">
 			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_start" id="inquiry_ctime_start" autocomplete="off" placeholder="添加开始日期">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_end" id="inquiry_ctime_end" autocomplete="off" placeholder="添加结束日期">
+			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
 	</div>
@@ -313,8 +327,10 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 </script>
 
 <script type="text/javascript">
-    layui.use(['table'], function() {
+    layui.use(['table','laydate','jquery'], function() {
         var table = layui.table;
+        layui.laydate.render({elem: '#inquiry_ctime_start', type: 'date'});
+        layui.laydate.render({elem: '#inquiry_ctime_end', type: 'date'});
         table.render({
             elem: '#dataTable'
             ,url: '<?php echo url(); ?>'
@@ -383,6 +399,12 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-supplier" name="supplier" autocomplete="off" placeholder="供应商名称">
 			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_start" id="inquiry_ctime_start" autocomplete="off" placeholder="添加开始日期">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_end" id="inquiry_ctime_end" autocomplete="off" placeholder="添加结束日期">
+			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
 	</div>
@@ -413,8 +435,10 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 </script>
 
 <script type="text/javascript">
-    layui.use(['table'], function() {
+    layui.use(['table','laydate','jquery'], function() {
         var table = layui.table;
+        layui.laydate.render({elem: '#inquiry_ctime_start', type: 'date'});
+        layui.laydate.render({elem: '#inquiry_ctime_end', type: 'date'});
         table.render({
             elem: '#dataTable'
             ,url: '<?php echo url(); ?>'
@@ -464,6 +488,12 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 			 <div class="layui-input-inline">
 				<input type="text" class="layui-input field-supplier" name="supplier" autocomplete="off" placeholder="供应商名称">
 			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_start" id="inquiry_ctime_start" autocomplete="off" placeholder="添加开始日期">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" name="ctime_end" id="inquiry_ctime_end" autocomplete="off" placeholder="添加结束日期">
+			</div>
 			<button class="layui-btn search_btn" type="submit">搜索</button>
 		  </div>
 	</div>
@@ -494,8 +524,10 @@ $ca = strtolower(request()->controller().'/'.request()->action());
 </script>
 
 <script type="text/javascript">
-    layui.use(['table'], function() {
+    layui.use(['table','laydate','jquery'], function() {
         var table = layui.table;
+        layui.laydate.render({elem: '#inquiry_ctime_start', type: 'date'});
+        layui.laydate.render({elem: '#inquiry_ctime_end', type: 'date'});
         table.render({
             elem: '#dataTable'
             ,url: '<?php echo url(); ?>'

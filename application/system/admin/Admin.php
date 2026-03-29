@@ -627,4 +627,51 @@ class Admin extends Common
 
     }
 
+    /**
+     * 列表搜索：添加时间起止（ctime 为 Unix 时间戳）
+     * @param array  $where
+     * @param string $field 字段名，含表别名时如 a.ctime
+     */
+    protected function appendCtimeToWhere(array &$where, $field = 'ctime')
+    {
+        $start = trim((string)$this->request->param('ctime_start/s', ''));
+        $end   = trim((string)$this->request->param('ctime_end/s', ''));
+        if ($start !== '') {
+            $ts = strtotime($start . ' 00:00:00');
+            if ($ts !== false) {
+                $where[] = [$field, '>=', $ts];
+            }
+        }
+        if ($end !== '') {
+            $ts = strtotime($end . ' 23:59:59');
+            if ($ts !== false) {
+                $where[] = [$field, '<=', $ts];
+            }
+        }
+    }
+
+    /**
+     * @param \think\db\Query|\think\Model $query
+     * @param string                       $field
+     * @return mixed
+     */
+    protected function appendCtimeToQuery($query, $field = 'ctime')
+    {
+        $start = trim((string)$this->request->param('ctime_start/s', ''));
+        $end   = trim((string)$this->request->param('ctime_end/s', ''));
+        if ($start !== '') {
+            $ts = strtotime($start . ' 00:00:00');
+            if ($ts !== false) {
+                $query->where($field, '>=', $ts);
+            }
+        }
+        if ($end !== '') {
+            $ts = strtotime($end . ' 23:59:59');
+            if ($ts !== false) {
+                $query->where($field, '<=', $ts);
+            }
+        }
+        return $query;
+    }
+
 }

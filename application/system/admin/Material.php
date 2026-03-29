@@ -43,37 +43,10 @@ class Material extends Admin
     public function index($q = '')
     {
         if ($this->request->isAjax()) {
-            $where = $data = [];
+            $where = $this->buildMaterialSearchWhere();
+            $this->appendCtimeToWhere($where, 'a.ctime');
             $page  = $this->request->param('page/d', 1);
             $limit = $this->request->param('limit/d', 15);
-            $name  = $this->request->param('name/s');
-            if ($name) {
-                $where[] = ['b.name', 'like', "%{$name}%"];
-            }
-            $ename = $this->request->param('ename/s');
-            if ($ename) {
-                $where[] = ['b.ename', 'like', "%{$ename}%"];
-            }
-            $cas = $this->request->param('cas/s');
-            if ($cas) {
-                $where[] = ['b.cas', '=', "{$cas}"];
-            }
-            $smiles = $this->request->param('smiles/s');
-            if ($smiles) {
-                $where[] = ['b.smiles', '=', "{$smiles}"];
-            }
-            $mdl = $this->request->param('mdl/s');
-            if ($mdl) {
-                $where[] = ['b.mdl', '=', "{$mdl}"];
-            }
-            $inchikey = $this->request->param('inchikey/s');
-            if ($inchikey) {
-                $where[] = ['b.inchikey', '=', "{$inchikey}"];
-            }
-            $catalog = $this->request->param('catalog/s');
-            if ($catalog) {
-                $where[] = ['a.catalog', '=', "{$catalog}"];
-            }
             $acceptOptions = [
                 0   => ''
                 , 1 => '接收'
@@ -113,6 +86,43 @@ class Material extends Admin
         return $this->assign($assign)->fetch();
     }
 
+    /**
+     * 原料分析列表/导出共用筛选（不含添加时间）
+     * @return array
+     */
+    private function buildMaterialSearchWhere()
+    {
+        $where = [];
+        $name = $this->request->param('name/s');
+        if ($name) {
+            $where[] = ['b.name', 'like', "%{$name}%"];
+        }
+        $ename = $this->request->param('ename/s');
+        if ($ename) {
+            $where[] = ['b.ename', 'like', "%{$ename}%"];
+        }
+        $cas = $this->request->param('cas/s');
+        if ($cas) {
+            $where[] = ['b.cas', '=', "{$cas}"];
+        }
+        $smiles = $this->request->param('smiles/s');
+        if ($smiles) {
+            $where[] = ['b.smiles', '=', "{$smiles}"];
+        }
+        $mdl = $this->request->param('mdl/s');
+        if ($mdl) {
+            $where[] = ['b.mdl', '=', "{$mdl}"];
+        }
+        $inchikey = $this->request->param('inchikey/s');
+        if ($inchikey) {
+            $where[] = ['b.inchikey', '=', "{$inchikey}"];
+        }
+        $catalog = $this->request->param('catalog/s');
+        if ($catalog) {
+            $where[] = ['a.catalog', '=', "{$catalog}"];
+        }
+        return $where;
+    }
 
     /**
      * 添加用户
@@ -490,71 +500,70 @@ class Material extends Admin
             , 40 => 'GC'
             , 41 => '备注'
         ];
-        $where = [];
-        $limit = 100;
-        $name  = $this->request->param('name/s');
-        if ($name) {
-            $where[] = ['name', 'like', "%{$name}%"];
-        }
-        $ename = $this->request->param('ename/s');
-        if ($ename) {
-            $where[] = ['ename', 'like', "%{$ename}%"];
-        }
-        $cas = $this->request->param('cas/s');
-        if ($cas) {
-            $where[] = ['cas', '=', "{$cas}"];
-        }
-        $smiles = $this->request->param('smiles/s');
-        if ($smiles) {
-            $where[] = ['smiles', '=', "{$smiles}"];
-        }
-        $mdl = $this->request->param('mdl/s');
-        if ($mdl) {
-            $where[] = ['mdl', '=', "{$mdl}"];
-        }
-        $inchikey = $this->request->param('inchikey/s');
-        if ($inchikey) {
-            $where[] = ['inchikey', '=', "{$inchikey}"];
-        }
-        $catalog = $this->request->param('$catalog/s');
-        if ($catalog) {
-            $where[] = ['catalog', '=', "{$catalog}"];
-        }
-        $list = ProductModel::where($where)->limit($limit)->select();
-        //var_dump($list);exit;
-        $resultArray = array();
+        $where = $this->buildMaterialSearchWhere();
+        $this->appendCtimeToWhere($where, 'a.ctime');
+        $acceptOptions = [
+            0 => '',
+            1 => '接收',
+            2 => '不接收，换货或重新采购',
+            3 => '不接收,退货或不再订购',
+        ];
+        $exportLimit = 50000;
+        $list          = MaterialModel::alias('a')
+            ->join('hisi_system_product b ', 'b.catalog = a.catalog', 'left')
+            ->field('a.*,b.name,b.ename,b.struture,b.cas,b.mdl,b.purity,b.mf,b.mw,b.hplc,b.gc')
+            ->where($where)->limit($exportLimit)->select();
+        $resultArray = [];
         foreach ($list as $tem_obj) {
-            $data       = array();
-            $data['A']  = $tem_obj['catalog'];
-            $data['B']  = $tem_obj['name'];
-            $data['C']  = $tem_obj['ename'];
-            $data['D']  = $tem_obj['cas'];
-            $data['E']  = $tem_obj['mdl'];
-            $data['G']  = $tem_obj['purity'];
-            $data['H']  = $tem_obj['mf'];
-            $data['I']  = $tem_obj['mw'];
-            $data['J']  = $tem_obj['smiles'];
-            $data['K']  = $tem_obj['inchi'];
-            $data['L']  = $tem_obj['inchikey'];
-            $data['M']  = $tem_obj['ghs'];
-            $data['N']  = $tem_obj['store'];
-            $data['O']  = $tem_obj['transport'];
-            $data['P']  = $tem_obj['physical_trait'];
-            $data['Q']  = $tem_obj['packing_rules'];
-            $data['R']  = $tem_obj['package'];
-            $data['F']  = $tem_obj['struture'];
-            $data['S']  = $tem_obj['nmr'];
-            $data['T']  = $tem_obj['nmrsolvent'];
-            $data['U']  = $tem_obj['hplc'];
-            $data['V']  = $tem_obj['gc'];
-            $data['W']  = $tem_obj['ms'];
-            $data['Y']  = $tem_obj['ee'];
-            $data['X']  = $tem_obj['optical'];
-            $data['Z']  = $tem_obj['review'];
-            $data['AA'] = $tem_obj['remark'];
-            array_push($resultArray, $data);
+            $r = $tem_obj instanceof \think\Model ? $tem_obj->toArray() : (array)$tem_obj;
+            $store_name  = (isset($r['if_store']) && (int)$r['if_store'] === 1) ? '是' : '否';
+            $if_accept   = isset($r['if_accept']) ? (int)$r['if_accept'] : 0;
+            $accept_name = isset($acceptOptions[$if_accept]) ? $acceptOptions[$if_accept] : '';
+            $data        = [];
+            $data['A']   = $r['test_num'] ?? '';
+            $data['B']   = $r['catalog'] ?? '';
+            $data['C']   = $r['file'] ?? '';
+            $data['D']   = $r['file_size'] ?? '';
+            $data['E']   = $r['file_name'] ?? '';
+            $data['F']   = $r['uid'] ?? '';
+            $data['G']   = $r['nmr_num'] ?? '';
+            $data['H']   = $r['nmr_method'] ?? '';
+            $data['I']   = $r['po_num'] ?? '';
+            $data['J']   = $r['results'] ?? '';
+            $data['K']   = $store_name;
+            $data['L']   = $r['last_num'] ?? '';
+            $data['M']   = $r['order_amount'] ?? '';
+            $data['N']   = $r['optical'] ?? '';
+            $data['O']   = $r['optical_result'] ?? '';
+            $data['P']   = $r['ee'] ?? '';
+            $data['Q']   = $r['ee_result'] ?? '';
+            $data['R']   = $r['hplc_result'] ?? '';
+            $data['S']   = $r['gc_result'] ?? '';
+            $data['T']   = $r['ms_result'] ?? '';
+            $data['U']   = $accept_name;
+            $data['V']   = $r['purchaser'] ?? '';
+            $data['W']   = $r['merchandiser'] ?? '';
+            $data['X']   = $r['supplier'] ?? '';
+            $data['Y']   = $r['user_name'] ?? '';
+            $data['Z']   = $r['water_content'] ?? '';
+            $data['AA']  = $r['ph_num'] ?? '';
+            $data['AB']  = $r['melting_point'] ?? '';
+            $data['AC']  = $r['batch_num'] ?? '';
+            $data['AD']  = $r['purchaser_tel'] ?? '';
+            $data['AE']  = $r['merchandiser_tel'] ?? '';
+            $data['AF']  = $r['user_tel'] ?? '';
+            $data['AG']  = $r['purchaser_name'] ?? '';
+            $data['AH']  = $r['merchandiser_name'] ?? '';
+            $data['AI']  = $r['user_nick'] ?? '';
+            $data['AJ']  = $r['purchaser_super'] ?? '';
+            $data['AK']  = $r['house_super'] ?? '';
+            $data['AL']  = $r['user_super'] ?? '';
+            $data['AM']  = $r['recevier_name'] ?? '';
+            $data['AN']  = $r['hplc'] ?? '';
+            $data['AO']  = $r['gc'] ?? '';
+            $data['AP']  = $r['remark'] ?? '';
+            $resultArray[] = $data;
         }
-        //var_dump($resultArray);exit;
         $fileName = date("YmdHis") . "material";
         $this->exportExcel($title, $resultArray, $fileName, './', true);
     }
