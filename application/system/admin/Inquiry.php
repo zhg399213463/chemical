@@ -69,6 +69,22 @@ class Inquiry extends Admin
                 } else {
                     $arr['supplier_summary'] = $suppliers[0] . '、' . $suppliers[1] . '…共' . count($suppliers) . '家';
                 }
+                $quoteItems = [];
+                foreach ($items as $it) {
+                    $row = $it instanceof \think\Model ? $it->toArray() : (array)$it;
+                    $quoteItems[] = [
+                        'id'                  => (int)$row['id'],
+                        'supplier_id'         => (int)($row['supplier_id'] ?? 0),
+                        'supplier'            => (string)($row['supplier'] ?? ''),
+                        'quantity'            => $row['quantity'] ?? '',
+                        'price_excluding_tax' => $row['price_excluding_tax'] ?? null,
+                        'total_price'         => $row['total_price'] ?? null,
+                        'invoice_type'        => (string)($row['invoice_type'] ?? '1'),
+                        'tax_rate'            => $row['tax_rate'] ?? null,
+                        'need_spectrum'       => isset($row['need_spectrum']) ? (int)$row['need_spectrum'] : 0,
+                    ];
+                }
+                $arr['quote_items'] = $quoteItems;
                 $rows[] = $arr;
             }
 

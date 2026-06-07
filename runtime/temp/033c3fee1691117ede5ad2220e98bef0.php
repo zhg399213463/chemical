@@ -1,4 +1,4 @@
-<?php /*a:6:{s:56:"/www/chemical/application/system/view/purchase/form.html";i:1769954577;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
+<?php /*a:6:{s:56:"/www/chemical/application/system/view/purchase/form.html";i:1774765698;s:49:"/www/chemical/application/system/view/layout.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/header.html";i:1766319013;s:53:"/www/chemical/application/system/view/block/menu.html";i:1766319013;s:54:"/www/chemical/application/system/view/block/layui.html";i:1766319013;s:55:"/www/chemical/application/system/view/block/footer.html";i:1766319013;}*/ ?>
 <?php if(input('param.hisi_iframe') || cookie('hisi_iframe')): ?>
 <!DOCTYPE html>
 <html>
@@ -270,6 +270,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         <div class="layui-input-block">
             <?php echo token(); ?>
             <input type="hidden" class="field-id" name="id">
+            <input type="hidden" class="field-supplier_id" name="supplier_id" value="0">
         </div>
     </div>
     <div class="pop-bottom-bar">
@@ -291,11 +292,16 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
-        });
-        // 必须重新渲染
+        var fv = {
+            invoice_type: formData.invoice_type != null && formData.invoice_type !== ''
+                ? String(formData.invoice_type) : '1'
+        };
+        if (formData.need_spectrum !== undefined && formData.need_spectrum !== null) {
+            fv.need_spectrum = String(formData.need_spectrum);
+        }
+        form.val('editForm', fv);
         form.render('select');
+        form.render('radio');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{
@@ -421,6 +427,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         <div class="layui-input-block">
             <?php echo token(); ?>
             <input type="hidden" class="field-id" name="id">
+            <input type="hidden" class="field-supplier_id" name="supplier_id" value="0">
         </div>
     </div>
     <div class="pop-bottom-bar">
@@ -442,11 +449,16 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
-        });
-        // 必须重新渲染
+        var fv = {
+            invoice_type: formData.invoice_type != null && formData.invoice_type !== ''
+                ? String(formData.invoice_type) : '1'
+        };
+        if (formData.need_spectrum !== undefined && formData.need_spectrum !== null) {
+            fv.need_spectrum = String(formData.need_spectrum);
+        }
+        form.val('editForm', fv);
         form.render('select');
+        form.render('radio');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{
@@ -579,6 +591,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         <div class="layui-input-block">
             <?php echo token(); ?>
             <input type="hidden" class="field-id" name="id">
+            <input type="hidden" class="field-supplier_id" name="supplier_id" value="0">
         </div>
     </div>
     <div class="pop-bottom-bar">
@@ -600,11 +613,16 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
-        });
-        // 必须重新渲染
+        var fv = {
+            invoice_type: formData.invoice_type != null && formData.invoice_type !== ''
+                ? String(formData.invoice_type) : '1'
+        };
+        if (formData.need_spectrum !== undefined && formData.need_spectrum !== null) {
+            fv.need_spectrum = String(formData.need_spectrum);
+        }
+        form.val('editForm', fv);
         form.render('select');
+        form.render('radio');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{
@@ -718,6 +736,7 @@ $ca = strtolower(request()->controller().'/'.request()->action());
         <div class="layui-input-block">
             <?php echo token(); ?>
             <input type="hidden" class="field-id" name="id">
+            <input type="hidden" class="field-supplier_id" name="supplier_id" value="0">
         </div>
     </div>
     <div class="pop-bottom-bar">
@@ -739,11 +758,16 @@ $ca = strtolower(request()->controller().'/'.request()->action());
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
-        });
-        // 必须重新渲染
+        var fv = {
+            invoice_type: formData.invoice_type != null && formData.invoice_type !== ''
+                ? String(formData.invoice_type) : '1'
+        };
+        if (formData.need_spectrum !== undefined && formData.need_spectrum !== null) {
+            fv.need_spectrum = String(formData.need_spectrum);
+        }
+        form.val('editForm', fv);
         form.render('select');
+        form.render('radio');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{

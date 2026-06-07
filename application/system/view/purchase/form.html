@@ -94,6 +94,7 @@
         <div class="layui-input-block">
             {:token()}
             <input type="hidden" class="field-id" name="id">
+            <input type="hidden" class="field-supplier_id" name="supplier_id" value="0">
         </div>
     </div>
     <div class="pop-bottom-bar">
@@ -107,11 +108,16 @@
     layui.use(['form', 'func','upload'], function() {
         var $ = layui.jquery, form = layui.form, upload = layui.upload;
         layui.func.assign(formData);
-        form.val('editForm', {
-            "invoice_type": formData.invoice_type,
-        });
-        // 必须重新渲染
+        var fv = {
+            invoice_type: formData.invoice_type != null && formData.invoice_type !== ''
+                ? String(formData.invoice_type) : '1'
+        };
+        if (formData.need_spectrum !== undefined && formData.need_spectrum !== null) {
+            fv.need_spectrum = String(formData.need_spectrum);
+        }
+        form.val('editForm', fv);
         form.render('select');
+        form.render('radio');
     });
 	function ShowLayerMessage(msgStr,msgIndex)
 	{

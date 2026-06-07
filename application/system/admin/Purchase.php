@@ -11,6 +11,8 @@
 
 namespace app\system\admin;
 
+use app\system\model\SystemInquiryOrder as InquiryOrderModel;
+use app\system\model\SystemInquiryOrderItem as InquiryItemModel;
 use app\system\model\SystemPurchaseOrder as PurchaseModel;
 use app\system\model\SystemProduct as ProductModel;
 
@@ -100,7 +102,33 @@ class Purchase extends Admin
 
             return $this->success('保存成功', url('index'));
         }
-		$formData = [];
+
+        $formData = [];
+        $itemId   = (int)$this->request->param('inquiry_item_id/d', 0);
+        if ($itemId > 0) {
+            $item = InquiryItemModel::where('id', $itemId)->find();
+            if ($item) {
+                $order = InquiryOrderModel::where('id', $item['inquiry_order_id'])->find();
+                if ($order) {
+                    $inv = (string)($item['invoice_type'] ?? '1');
+                    $formData = [
+                        'catalog'             => $order['catalog'],
+                        'cas'                 => $order['cas'],
+                        'inquiry_no'          => $order['inquiry_no'],
+                        'supplier'            => $item['supplier'],
+                        'supplier_id'         => (int)$item['supplier_id'],
+                        'quantity'            => $item['quantity'],
+                        'price_excluding_tax' => $item['price_excluding_tax'],
+                        'total_price'         => $item['total_price'],
+                        'tax_rate'            => $item['tax_rate'],
+                        'need_spectrum'       => (int)$item['need_spectrum'],
+                        'remark'              => $item['remark'] ?? '',
+                        'invoice_type'        => ($inv === '2') ? 2 : 1,
+                        'unit'                => '',
+                    ];
+                }
+            }
+        }
 
         $this->assign('formData', $formData);
         return $this->fetch('form');

@@ -30,8 +30,10 @@
 {include file="block/layui" /}
 
 <script type="text/html" title="操作按钮模板" id="buttonTpl">
-    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal" title="修改">修改</a>
-	<a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+    <div class="inquiry-list-op-btns" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap;padding:2px 0;box-sizing:border-box;vertical-align:middle;">
+        <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal" style="margin:0;" title="修改">修改</a>
+        <a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del" style="margin:0;">删除</a>
+    </div>
 </script>
 
 <script type="text/html" id="toolbar">
@@ -44,10 +46,36 @@
 <script type="text/javascript">
     layui.use(['table','laydate','jquery'], function() {
         var table = layui.table;
+        var $ = layui.jquery;
+        var PURCHASE_ADD_URL = '{:url("system/purchase/add")}';
+        function escapeHtml(s) {
+            if (s == null || s === '') return '';
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
         layui.laydate.render({elem: '#inquiry_ctime_start', type: 'date'});
         layui.laydate.render({elem: '#inquiry_ctime_end', type: 'date'});
+        function syncInquiryTableFixedHeights() {
+            var $view = $('#dataTable').next('.layui-table-view');
+            if (!$view.length) return;
+            var $mainTr = $view.find('.layui-table-body.layui-table-main tbody tr');
+            var $fixTr = $view.find('.layui-table-fixed-l .layui-table-body tbody tr');
+            if (!$mainTr.length || !$fixTr.length) return;
+            $mainTr.each(function(i) {
+                var $m = $(this);
+                var $f = $fixTr.eq(i);
+                if (!$f.length) return;
+                var h = $m.outerHeight();
+                $f.css({height: h, 'box-sizing': 'border-box'});
+                $m.css({height: h, 'box-sizing': 'border-box'});
+            });
+        }
         table.render({
             elem: '#dataTable'
+            ,id: 'inquiryDataTable'
             ,url: '{:url()}'
             ,page: true
             ,skin: 'row'
@@ -60,14 +88,38 @@
             ,defaultToolbar: ['filter']
             ,cols: [[
                  {type:'checkbox',fixed:'left'}
-				,{title: '操作',fixed:'left', templet: '#buttonTpl', width:150}
+				,{title: '操作', templet: '#buttonTpl', width: 200, align: 'center'}
 				,{field: 'inquiry_no', title: '单号', width: 130}
 				,{field: 'catalog', title: '货号', width: 100}
                 ,{field: 'cas', title: 'CAS', width: 100}
 				,{field: 'product_name', title: '商品名称', width: 140}
 				,{field: 'quote_count', title: '报价家数', width: 90}
-				,{field: 'supplier_summary', title: '供应商摘要', minWidth: 200}
+				,{field: 'supplier_summary', title: '供应商摘要', minWidth: 160}
+                ,{field: 'quote_items', title: '供应商报价', minWidth: 320, templet: function(d) {
+                    if (!d.quote_items || !d.quote_items.length) return '-';
+                    var sep = PURCHASE_ADD_URL.indexOf('?') >= 0 ? '&' : '?';
+                    var parts = [];
+                    for (var i = 0; i < d.quote_items.length; i++) {
+                        var it = d.quote_items[i];
+                        var href = PURCHASE_ADD_URL + sep + 'inquiry_item_id=' + encodeURIComponent(it.id);
+                        var line = escapeHtml(it.supplier || '');
+                        if (it.quantity !== undefined && it.quantity !== null && it.quantity !== '') {
+                            line += ' 数量:' + escapeHtml(String(it.quantity));
+                        }
+                        if (it.price_excluding_tax !== undefined && it.price_excluding_tax !== null && it.price_excluding_tax !== '') {
+                            line += ' 不含税:' + escapeHtml(String(it.price_excluding_tax));
+                        }
+                        parts.push('<div style="margin-bottom:6px;line-height:1.5;">' + line
+                            + ' <a href="' + href + '" target="_blank" class="layui-btn layui-btn-xs layui-btn-normal">下单</a></div>');
+                    }
+                    return parts.join('');
+                }}
             ]]
+            ,done: function() {
+                setTimeout(syncInquiryTableFixedHeights, 0);
+                setTimeout(syncInquiryTableFixedHeights, 100);
+            }
         });
+        $(window).on('resize', syncInquiryTableFixedHeights);
     });
 </script>
